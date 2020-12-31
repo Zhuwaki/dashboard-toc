@@ -8,8 +8,7 @@ from navbar import navbar
 from app import server
 from apps import onbaord, intercept,rankcount,app1,geoOnboard
 
-app.layout = html.Div([
-        
+app.layout = html.Div([       
     navbar,
     dcc.Location(id='url', refresh=False),
     html.Div(id='page-content')
@@ -18,9 +17,8 @@ app.layout = html.Div([
 @app.callback(Output('page-content', 'children'),
               Input('url', 'pathname'))
 def display_page(pathname):
-    if pathname == '/apps/app1':
-        return app1.layout
-    elif pathname == '/apps/onboard':
+
+    if pathname == '/apps/onboard':
         return onbaord.layout
     elif pathname == '/apps/intercept':
         return intercept.layout
