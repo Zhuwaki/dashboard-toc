@@ -5,7 +5,7 @@ from dash.dependencies import Input, Output
 
 from app import app
 from app import server
-#from apps import onbaord, intercept,rankcount,app1,geoOnboard
+from apps import onbaord, intercept,rankcount,app1,geoOnboard
 
 app.layout = html.Div([
     
