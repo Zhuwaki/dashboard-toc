@@ -101,7 +101,7 @@ def update_output(start_date, end_date):
     # print(dff[:5])
     
     fig = px.line_mapbox(dff,line_group=dff['trip id'],lat=dff.lat, lon=dff.lon, hover_name=dff.mapperName,
-                     mapbox_style="stamen-terrain", zoom=10.7, title='Paratransit network',height=600)
+                     mapbox_style="stamen-terrain", zoom=10.7, title='Paratransit network',height=600,color=dff.vehicleReg)
 
     # fig=px.density_mapbox(dff, lat = 'LATITUDE', lon = 'LONGITUDE', z = 'APP_SQ_FT', radius = 13, zoom = 10, height = 650,
     #                         center = dict(lat=40.751418, lon=-73.963878), mapbox_style = "carto-positron",

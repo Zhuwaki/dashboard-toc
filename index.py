@@ -6,7 +6,7 @@ from dash.dependencies import Input, Output
 from app import app
 from navbar import navbar
 from app import server
-from apps import onbaord, intercept,rankcount,app1,geoOnboard,mapbox
+from apps import onbaord, intercept,rankcount,geoOnboard,mapbox
 
 app.layout = html.Div([       
     navbar,
