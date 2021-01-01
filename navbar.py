@@ -31,7 +31,7 @@ navbar =  dbc.NavbarSimple(
     ),
         dbc.DropdownMenu(
         [
-            dbc.DropdownMenuItem('Onbaord', href = '/apps/geoOnboard'),
+            dbc.DropdownMenuItem('Onbaord', href = '/apps/mapbox'),
             dbc.DropdownMenuItem('Intercept', href = '/apps/intercept'),
             dbc.DropdownMenuItem('Rank Count', href = '/apps/rankcount'),
 
