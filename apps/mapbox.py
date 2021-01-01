@@ -16,6 +16,7 @@ import numpy as np
 from app import app
 
 from mapboxdata import df
+print(df)
 
 # function gets a list of options for drop down and creates a dictionary with label and value
 def get_options(drop_down_list):
@@ -53,8 +54,8 @@ layout = html.Div([  # canvas
                                 day_size=39,
                                 with_portal=True,
                                 minimum_nights=0,
-                                start_date=dt(2020, 12, 1).date(),
-                                end_date=dt(2021, 1, 1).date(),
+                                start_date=dt(2020, 12, 9).date(),
+                                end_date=dt(2020, 12, 31).date(),
                                 # persistence = True,
                                 # persisted_props=['start_date'],
                                 # persistence_type='session',
