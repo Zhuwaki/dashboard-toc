@@ -15,8 +15,11 @@ import numpy as np
 
 from app import app
 
-from mapboxdata import df
+#from mapboxdata import df
+
+df = pandas.read_csv(r'datasets/geospatial.csv')
 print(df)
+df = df.set_index('date')
 
 # function gets a list of options for drop down and creates a dictionary with label and value
 def get_options(drop_down_list):
