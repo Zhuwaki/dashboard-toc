@@ -32,6 +32,8 @@ def get_options(drop_down_list):
 
 drop_down_list3 = ['Maseru', 'Gaborone', ]
 
+fig = px.line_mapbox(df,line_group=df['trip id'],lat=df.lat, lon=df.lon, hover_name=df.mapperName,
+                     mapbox_style="carto-positron", zoom=10.7, title='Paratransit network',height=600,color=df.routeID)
 
 
 layout = html.Div([  # canvas
@@ -51,23 +53,23 @@ layout = html.Div([  # canvas
                                 'align': 'justify', 'margin': 5,'width':286,'margin-top':60 }
                             ),  # fourth element of left column
 
-                            dcc.DatePickerRange(id='my-date-picker-range',
-                                start_date_placeholder_text='Start Period',
-                                end_date_placeholder_text='End Period',
-                                calendar_orientation='horizontal',
-                                day_size=39,
-                                with_portal=True,
-                                minimum_nights=0,
-                                start_date=dt(2020, 12, 9).date(),
-                                end_date=dt(2020, 12, 31).date(),
-                                # persistence = True,
-                                # persisted_props=['start_date'],
-                                # persistence_type='session',
-                                display_format='MMM Do, YYYY',
-                                updatemode='singledate',
-                                style={'font-size': 2,
-                                    'align': 'left', 'margin': 10}
-                            )
+                            # dcc.DatePickerRange(id='my-date-picker-range',
+                            #     start_date_placeholder_text='Start Period',
+                            #     end_date_placeholder_text='End Period',
+                            #     calendar_orientation='horizontal',
+                            #     day_size=39,
+                            #     with_portal=True,
+                            #     minimum_nights=0,
+                            #     start_date=dt(2020, 12, 9).date(),
+                            #     end_date=dt(2020, 12, 31).date(),
+                            #     # persistence = True,
+                            #     # persisted_props=['start_date'],
+                            #     # persistence_type='session',
+                            #     display_format='MMM Do, YYYY',
+                            #     updatemode='singledate',
+                            #     style={'font-size': 2,
+                            #         'align': 'left', 'margin': 10}
+                            # )
 
                         ], width=3
                             
@@ -75,7 +77,7 @@ layout = html.Div([  # canvas
 
                     dbc.Col(
                         [
-                           dcc.Graph(id='mymap2')
+                           dcc.Graph(id='mymap2',figure=fig)
                         ],width=9
                     )
                 ]
@@ -90,22 +92,22 @@ layout = html.Div([  # canvas
 
   # end of canvas
 
-@app.callback(
-    Output('mymap2', 'figure'),
-    [Input('my-date-picker-range', 'start_date'),
-     Input('my-date-picker-range', 'end_date')]
-)
-def update_output(start_date, end_date):
-    # print("Start date: " + start_date)
-    # print("End date: " + end_date)
-    dff=df.loc[start_date:end_date]
-    # print(dff[:5])
+# @app.callback(
+#     Output('mymap2', 'figure'),
+#     [Input('my-date-picker-range', 'start_date'),
+#      Input('my-date-picker-range', 'end_date')]
+# )
+# def update_output(start_date, end_date):
+#     # print("Start date: " + start_date)
+#     # print("End date: " + end_date)
+#     dff=df.loc[start_date:end_date]
+#     # print(dff[:5])
     
-    fig = px.line_mapbox(dff,line_group=dff['trip id'],lat=dff.lat, lon=dff.lon, hover_name=dff.mapperName,
-                     mapbox_style="carto-positron", zoom=10.7, title='Paratransit network',height=600)
+#     fig = px.line_mapbox(dff,line_group=dff['trip id'],lat=dff.lat, lon=dff.lon, hover_name=dff.mapperName,
+#                      mapbox_style="carto-positron", zoom=10.7, title='Paratransit network',height=600,color=dff.routeID)
 
-    # fig=px.density_mapbox(dff, lat = 'LATITUDE', lon = 'LONGITUDE', z = 'APP_SQ_FT', radius = 13, zoom = 10, height = 650,
-    #                         center = dict(lat=40.751418, lon=-73.963878), mapbox_style = "carto-positron",
-    #                         hover_data = {'BUSINESS_NAME': True, 'LATITUDE': False, 'LONGITUDE': False,
-    #                                     'APP_SQ_FT': True})
-    return fig
+#     # fig=px.density_mapbox(dff, lat = 'LATITUDE', lon = 'LONGITUDE', z = 'APP_SQ_FT', radius = 13, zoom = 10, height = 650,
+#     #                         center = dict(lat=40.751418, lon=-73.963878), mapbox_style = "carto-positron",
+#     #                         hover_data = {'BUSINESS_NAME': True, 'LATITUDE': False, 'LONGITUDE': False,
+#     #                                     'APP_SQ_FT': True})
+#     return fig
