@@ -10,8 +10,8 @@ navbar =  dbc.NavbarSimple(
     
         dbc.DropdownMenu(
         [
-            dbc.DropdownMenuItem('Maseru', href = '/apps/citysummary'),
-            dbc.DropdownMenuItem('Gaborone', href = '/apps/citysummary'),
+            dbc.DropdownMenuItem('Maseru', href = '/apps/maseru'),
+            dbc.DropdownMenuItem('Gaborone', href = '/apps/gaborone'),
         ],
         nav=True,
         in_navbar=True,
@@ -33,7 +33,7 @@ navbar =  dbc.NavbarSimple(
         [
             dbc.DropdownMenuItem('Onbaord', href = '/apps/mapbox'),
             dbc.DropdownMenuItem('Intercept', href = '/apps/intercept'),
-            dbc.DropdownMenuItem('Rank Count', href = '/apps/rankcount'),
+            #dbc.DropdownMenuItem('Rank Count', href = '/apps/rankcount'),
 
         ],
         nav=True,
@@ -41,8 +41,9 @@ navbar =  dbc.NavbarSimple(
         label="Geospatial Summary",
     )
         ],
-    brand = 'Digital Innovation Data Reports',
+    brand = 'Digital Innovation Dashboard',
     brand_href ='/apps/onboard',
     color='#009999',
-    brand_style={'color':'#ffff'}
+    brand_style={'color':'#ffff'},
+    sticky='sticky'
     )
