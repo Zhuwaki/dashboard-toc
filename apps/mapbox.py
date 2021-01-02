@@ -70,6 +70,7 @@ layout = html.Div([  # canvas
                             #     style={'font-size': 2,
                             #         'align': 'left', 'margin': 10}
                             # )
+                           # html.Img(src=app.get_asset_url('GoMetro-2.png'),style={'margin-top':300,'margin-left':80, 'width':'20%'})
 
                         ], width=2,className='nigel'
                             

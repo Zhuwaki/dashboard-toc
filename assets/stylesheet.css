@@ -9,9 +9,21 @@
 .dropdown-menu.show{
     background-color: #00b3b3;
 }
-.dropdown-item.show{
+.dropdown-item a{
     background-color: #004d4d;
 }
 .nigel{
     background-color: #f0f5f5;
+}
+.summary{
+    font-family: Arial, Helvetica, sans-serif;
+    justify-content: baseline;
+    text-align: justify;
+    font-size: small;
+    margin-top: 1.5%;
+    margin-left: 2%;
+}
+.summary-image{
+    margin-top: 5%;
+    margin-left: 5%;
 }

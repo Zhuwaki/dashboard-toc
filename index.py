@@ -6,7 +6,7 @@ from dash.dependencies import Input, Output
 from app import app
 from navbar import navbar
 from app import server
-from apps import onbaord, intercept,rankcount,mapbox
+from apps import onbaord, intercept,rankcount,mapbox,projectsummary,citysummary
 
 app.layout = html.Div([       
     navbar,
@@ -24,8 +24,10 @@ def display_page(pathname):
         return intercept.layout
     elif pathname == '/apps/rankcount':
         return rankcount.layout
-    # elif pathname == '/apps/geoOnboard':
-    #     return geoOnboard.layout
+    elif pathname == '/apps/projectsummary':
+        return projectsummary.layout
+    elif pathname == '/apps/citysummary':
+        return citysummary.layout
     elif pathname == '/apps/mapbox':
         return mapbox.layout
     else:

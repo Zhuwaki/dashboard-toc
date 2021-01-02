@@ -98,7 +98,7 @@ layout = html.Div([ #canvas
                                 style={'font-size':16,'align':'justify','margin':50}
                                 )
 
-                        ],width = 3
+                        ],width = 3,className='nigel'
                     ), # end of left column on canvas
 
                     dbc.Col( # right column on canvas

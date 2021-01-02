@@ -4,14 +4,14 @@ import dash_html_components as html
 navbar =  dbc.NavbarSimple(
     
     [
-        dbc.NavItem(dbc.NavLink("Project Summary", href = '/apps/onboard')),
+        dbc.NavItem(dbc.NavLink("Project Summary", href = '/apps/projectsummary')),
     #    dbc.NavItem(dbc.NavLink("Intercept", href = '/apps/intercept')),
     #    dbc.NavItem(dbc.NavLink("Rank count", href = '/apps/rankcount')),
     
         dbc.DropdownMenu(
         [
-            dbc.DropdownMenuItem('Maseru', href = '/apps/onboard'),
-            dbc.DropdownMenuItem('Gaborone', href = '/apps/intercept'),
+            dbc.DropdownMenuItem('Maseru', href = '/apps/citysummary'),
+            dbc.DropdownMenuItem('Gaborone', href = '/apps/citysummary'),
         ],
         nav=True,
         in_navbar=True,
@@ -41,7 +41,7 @@ navbar =  dbc.NavbarSimple(
         label="Geospatial Summary",
     )
         ],
-    brand = 'Field summary reports',
+    brand = 'Digital Innovation Data Reports',
     brand_href ='/apps/onboard',
     color='#009999',
     brand_style={'color':'#ffff'}
