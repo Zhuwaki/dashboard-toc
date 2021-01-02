@@ -2,4 +2,16 @@
     font-size: 15px;
 }
 
+.navbar.navbar-expand-md.navbar-light li a{
+    color: aliceblue;
+}
 
+.dropdown-menu.show{
+    background-color: #00b3b3;
+}
+.dropdown-item.show{
+    background-color: #004d4d;
+}
+.nigel{
+    background-color: #f0f5f5;
+}

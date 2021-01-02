@@ -50,7 +50,7 @@ layout = html.Div([  # canvas
                             options=get_options(drop_down_list3),
                             value='Maseru',
                             style={'font-size': 15,
-                                'align': 'justify', 'margin': 5,'width':286,'margin-top':60 }
+                                'align': 'justify', 'margin': 5,'margin-top':60 }
                             ),  # fourth element of left column
 
                             # dcc.DatePickerRange(id='my-date-picker-range',
@@ -71,14 +71,14 @@ layout = html.Div([  # canvas
                             #         'align': 'left', 'margin': 10}
                             # )
 
-                        ], width=3
+                        ], width=2,className='nigel'
                             
                     ),
 
                     dbc.Col(
                         [
                            dcc.Graph(id='mymap2',figure=fig)
-                        ],width=9
+                        ],width=10
                     )
                 ]
             ),  # end of row for content

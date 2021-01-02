@@ -42,5 +42,7 @@ navbar =  dbc.NavbarSimple(
     )
         ],
     brand = 'Field summary reports',
-    brand_href ='/apps/onboard'
+    brand_href ='/apps/onboard',
+    color='#009999',
+    brand_style={'color':'#ffff'}
     )
