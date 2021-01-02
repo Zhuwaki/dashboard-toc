@@ -18,12 +18,16 @@ from app import app
 
 #from mapboxdata import df
 
-df = pandas.read_csv(r'datasets/geospatial.csv')
+df = pandas.read_csv(r'datasets/Intercept_Arusha.csv')
+df2 = pandas.read_csv(r'datasets/sample.csv')
+print(df2)
 
-df2 = pandas.read_csv(r'datasets/onboard_sample.csv')
+
+df = df[['SubmissionDate','geolocation-Latitude','geolocation-Longitude','gender']]
+df = df.dropna()
 #df = df.drop_duplicates()
 print(df)
-df = df.set_index('date')
+#df = df.set_index('date')
 
 # function gets a list of options for drop down and creates a dictionary with label and value
 def get_options(drop_down_list):
@@ -32,11 +36,30 @@ def get_options(drop_down_list):
         dict_list.append({'label': i, 'value': i})
     return dict_list
 
+# def generate_table(dataframe, max_rows=3):
+#     return html.Table(
+#         # Header
+#         [html.Tr([html.Th(col) for col in dataframe.columns]) ] +
+#         # Body
+#         [html.Tr([
+#             html.Td(dataframe.iloc[i][col]) for col in dataframe.columns
+#         ]) for i in range(min(len(dataframe), max_rows))], style={'border':'5px', 'font-size':'1.2rem'}
+#     )
 
 drop_down_list3 = ['Maseru', 'Gaborone', ]
 
-fig = px.line_mapbox(df,line_group=df['trip id'],lat=df.lat, lon=df.lon, hover_name=df.mapperName,
-                     mapbox_style="carto-positron", zoom=10.7, title='Paratransit network',height=600,color=df.routeID)
+fig = px.scatter_mapbox(df,lat=df['geolocation-Latitude'], lon=df['geolocation-Longitude'],
+                     mapbox_style="carto-positron", zoom=10.7, title='Location of Intercept Surveys',color="gender",height=600)
+
+
+# fig2 = go.Figure(data=[go.Table(
+#     header=dict(values=list(df2.columns),
+#                 fill_color='paleturquoise',
+#                 align='left'),
+#     cells=dict(values=[df2.variable, df2.target, df2.actual, df2.diff],
+#                fill_color='lavender',
+#                align='left'))
+# ])
 
 
 layout = html.Div([  # canvas
@@ -80,12 +103,17 @@ layout = html.Div([  # canvas
                                             for i in df2.columns],
                                 data=df2.to_dict('records'),
                                 style_cell=dict(textAlign='right',padding='2px 22px',border='1px solid black',fontFamily='Open Sans'),
-                                style_header=dict(backgroundColor="lavender",fontWeight='bold'),
+                                style_header=dict(backgroundColor="paleturquoise",fontWeight='bold'),
                                 style_data=dict(backgroundColor="lavender",padding='2px 22px',border='1px solid black',whiteSpace='normal'),
                                 #style_table=dict(border='1px solid blue')
                                 )
                             ],className='table'),
+                            
+                            #dcc.Graph(id='table',figure=fig2)
                            # html.Img(src=app.get_asset_url('GoMetro-2.png'),style={'margin-top':300,'margin-left':80, 'width':'20%'})
+                        #    html.H4(children='Sampling',style={'margin-top':30,'margin-left':0}),
+                        #    generate_table(df2)
+                        
 
                         ], width=3,className='nigel'
                             
@@ -93,7 +121,7 @@ layout = html.Div([  # canvas
 
                     dbc.Col(
                         [
-                           dcc.Graph(id='mymap2',figure=fig)
+                           dcc.Graph(id='mymap3',figure=fig)
                         ],width=9
                     )
                 ],style={'height':'100vh'}

@@ -102,7 +102,7 @@ layout = html.Div([ #canvas
 
                     ) # end of left column on canvas
                     
-                ]
+                ],style={'height':'100vh'}
                 
             ) # end of row for content
 

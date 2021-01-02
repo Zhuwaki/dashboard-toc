@@ -19,6 +19,8 @@ drop_down_list3 = ['Maseru','Gaborone',]
 data = pandas.read_csv(r'datasets/dashboard.csv')
 
 
+
+
 def get_options(drop_down_list): # function gets a list of options for drop down and creates a dictionary with label and value
     dict_list = []
     for i in drop_down_list:
@@ -42,29 +44,35 @@ layout = html.Div([ #canvas
                     dbc.Col( # left column on canvas
                         [
                             
+                            html.Div(
+                                [
+                                    html.H5('Onboard results')
+                                ],
+                                className='summary-survey'
+                            ),
                             html.P('Select City'
-                            ,style={'font-size':20,'align':'justify','margin':30}), # third element of left column
+                            ,style={'font-size':20,'align':'justify','margin':0,'padding':20}), # third element of left column
 
                             dcc.Dropdown(id='drop2',
                             options = get_options(drop_down_list3),
                             value = 'Maseru',
-                            style = {'font-size':15,'align':'justify','margin':5,'width':286}
+                            style = {'font-size':15,'align':'justify','margin':0,'padding':5}
                             ), #fourth element of left column
                             
                             
-                            html.P('Select summary option'
-                            ,style={'font-size':20,'align':'justify','margin':30}), # first element of left column
+                            html.P('Select Summary'
+                            ,style={'font-size':20,'align':'justify','margin':0,'padding':20}), # first element of left column
 
                             dcc.Dropdown(id='drop',
                             options = get_options(drop_down_list),
                             value = 'mapper',
                             placeholder='Please choose report',
-                            style = {'font-size':15,'align':'justify','margin':5,'width':286 }
+                            style = {'font-size':15,'align':'justify','margin':0 ,'padding':5}
                             ), #second element of left column
 
 
-                            html.P('Select date range'
-                            ,style={'font-size':20,'align':'justify','margin':30}), # third element of left column
+                            html.P('Select Date Range'
+                            ,style={'font-size':20,'align':'justify','margin':00,'padding':20}), # third element of left column
                             
                             
                             dcc.DatePickerRange(id='my-date-picker-range',
@@ -81,7 +89,7 @@ layout = html.Div([ #canvas
                                 #persistence_type='session',
                                 display_format='MMM Do, YYYY',
                                 updatemode='singledate',
-                                style={'font-size':2,'align':'justify','margin':10}
+                                style={'font-size':2,'align':'justify','padding':5}
                             ),
 
                             # html.Button(
@@ -95,7 +103,7 @@ layout = html.Div([ #canvas
                                 className='mr-1',
                                 outline = True,
                                 href='#',
-                                style={'font-size':16,'align':'justify','margin':50}
+                                style={'font-size':16,'align':'center','margin-top':10,'padding':10,'margin-left':30,'background-color':'#00b3b3','border':'none','color':'#ffff',}
                                 )
 
                         ],width = 3,className='nigel'
@@ -109,7 +117,9 @@ layout = html.Div([ #canvas
 
                     ) # end of left column on canvas
                     
-                ]
+                ],
+                
+                style={'height':'100vh'}
                 
             ) # end of row for content
 

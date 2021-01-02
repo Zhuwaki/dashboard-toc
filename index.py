@@ -6,13 +6,13 @@ from dash.dependencies import Input, Output
 from app import app
 from navbar import navbar
 from app import server
-from apps import onbaord, intercept,rankcount,mapbox,projectsummary,maseru,gaborone
+from apps import onbaord, intercept,rankcount,mapbox,projectsummary,maseru,gaborone,geoIntercept
 
 app.layout = html.Div([       
     navbar,
     dcc.Location(id='url', refresh=False),
     html.Div(id='page-content')
-])
+],style={'height':'100vh'})
 
 @app.callback(Output('page-content', 'children'),
               Input('url', 'pathname'))
@@ -32,6 +32,8 @@ def display_page(pathname):
         return gaborone.layout
     elif pathname == '/apps/mapbox':
         return mapbox.layout
+    elif pathname == '/apps/geoIntercept':
+        return geoIntercept.layout
     else:
         return onbaord.layout
 

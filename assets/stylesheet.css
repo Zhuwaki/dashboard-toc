@@ -14,6 +14,9 @@
 }
 .nigel{
     background-color: #f0f5f5;
+    margin-left: 0%;
+    padding-left: 5%;
+    padding-right: 5%;
 }
 .summary{
     font-family: Arial, Helvetica, sans-serif;
@@ -25,6 +28,19 @@
 }
 .summary-image{
     margin-top: 5%;
-    margin-left: 5%;
+    margin-left: 2%;
    /** background-image: url("/assets/gaborone.png");**/
+}
+
+.table{
+    padding-top: 40%;
+    border: #004d4d;
+}
+
+.summary-survey{
+    padding-top: 16%;
+}
+
+.content{
+    height: 100vh;
 }
