@@ -24,6 +24,19 @@ navbar =  dbc.NavbarSimple(
             dbc.DropdownMenuItem('Intercept', href = '/apps/intercept'),
             dbc.DropdownMenuItem('Rank Count', href = '/apps/rankcount'),
 
+
+        ],
+        nav=True,
+        in_navbar=True,
+        label="Productivity Summary",
+    ),
+    dbc.DropdownMenu(
+        [
+            # dbc.DropdownMenuItem('Onboard', href = '/apps/onboard'),
+            # dbc.DropdownMenuItem('Intercept', href = '/apps/intercept'),
+            # dbc.DropdownMenuItem('Rank Count', href = '/apps/rankcount'),
+            dbc.DropdownMenuItem('Onboard', href = '/apps/onboardDist'),
+
         ],
         nav=True,
         in_navbar=True,
@@ -39,6 +52,7 @@ navbar =  dbc.NavbarSimple(
         nav=True,
         in_navbar=True,
         label="Geospatial Summary",
+        
     )
         ],
     brand = 'Digital Innovation Dashboard',
