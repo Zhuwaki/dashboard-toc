@@ -4,12 +4,13 @@ import dash_html_components as html
 from dash.dependencies import Input, Output
 
 from app import app
-from navbar import navbar
 from app import server
+from apps import navbar
+
 from apps import onbaord, intercept,rankcount,mapbox,projectsummary,maseruSummary,gaboroneSummary,geoIntercept,onboardDist
 
 app.layout = html.Div([       
-    navbar,
+    navbar.navbar,
     dcc.Location(id='url', refresh=False),
     html.Div(id='page-content')
 ],style={'height':'100vh'})
