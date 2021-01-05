@@ -106,7 +106,7 @@ layout = html.Div([ #canvas
                             # ],className='table'),
 
 
-                        ],width=1
+                        ],width=0
 
                     ), # end of left column on canvas
                     
