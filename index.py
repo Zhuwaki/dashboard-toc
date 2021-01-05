@@ -20,7 +20,7 @@ app.layout = html.Div([
 def display_page(pathname):
 
     if pathname == '/apps/onboard':
-        return onbaord.layout
+        return onbaord.layoutP
     elif pathname == '/apps/intercept':
         return intercept.layout
     elif pathname == '/apps/rankcount':

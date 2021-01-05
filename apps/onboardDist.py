@@ -4,6 +4,9 @@ import dash_core_components as dcc
 import dash_html_components as html
 import dash_bootstrap_components as dbc
 from dash.dependencies import Input, Output
+import dash_table
+
+
 
 from plotly.subplots import make_subplots
 import plotly.express as px
@@ -12,14 +15,32 @@ from app import app
 
 data = pandas.read_csv((r'C:\Users\nzhuw\Desktop\Data Science Projects\GoAscendal Projects\digital-innovation-maseru\models\cleanedob.csv'))
 
-#fig = make_subplots(rows=1, cols=2,subplot_titles=("Plot 1", "Plot 2"))
+summaryStats = data.describe().T
 
-# fig = px.box(data_frame=data,y='distance')
-# fig2 = px.box(data_frame=data,y='revenue')
-# fig3 = px.box(data_frame=data,y='total passengers')
-#fig.add_trace(px.box(data, y='distance'))
+summaryStats = summaryStats.drop(['trip id','on/off discrepancy','gps loss (km)','hour'])
 
-# fig.add_trace(px.box(data, y='speed',row=1, col=2))
+print(summaryStats)
+summaryStats = summaryStats.reset_index()
+
+summaryStats = summaryStats.round(0)
+
+#fig = make_subplots(rows=2, cols=3,subplot_titles=("distance", "revenue",'total passengers','number of stops','travel time','speed'))
+fig = make_subplots(rows=2, cols=3)
+
+fig.append_trace({'y':data.distance,'type':'box','name':'distance'},1,1)
+fig.append_trace({'y':data.revenue,'type':'box','name':'revenue'},1,2)
+fig.append_trace({'y':data['total passengers'],'type':'box','name':'total passengers'},1,3)
+
+fig.append_trace({'y':data['number of stops'],'type':'box','name':'number of stops'},2,1)
+
+fig.append_trace({'y':data.travel_time_min,'type':'box','name':'travel time'},2,2)
+fig.append_trace({'y':data.speed,'type':'box','name':'speed'},2,3)
+
+              
+fig.update_layout(showlegend=False)
+
+
+
 
 
 def get_options(drop_down_list): # function gets a list of options for drop down and creates a dictionary with label and value
@@ -52,34 +73,40 @@ layout = html.Div([ #canvas
                                 className='summary-survey'
                             ),                
 
-                        ],width = 3,className='left-side-bar'
+                        ],width = 2,className='left-side-bar'
                     ), # end of left column on canvas
-
+                    
+                    
                     dbc.Col( # right column on canvas
                         [
-                            #dcc.Graph(id='my-graph',figure=fig3)
+                            dcc.Graph(id='my-graph',figure=fig),
                             #html.Img(src=app.get_asset_url('method.png'),style={'margin-top':1,'margin-left':0, 'width':'100%'}),
 
 
-                        ],width=3
+                        ],width=9
 
                     ), # end of left column on canvas
-                    dbc.Col( # right column on canvas
-                        [
-                            #dcc.Graph(id='my-graph',figure=fig2)
-                            #html.Img(src=app.get_asset_url('method.png'),style={'margin-top':1,'margin-left':0, 'width':'100%'}),
 
 
-                        ],width=3
-
-                    ), # end of left column on canvas
                     dbc.Col( # right column on canvas
                         [
                             #dcc.Graph(id='my-graph',figure=fig),
                             #html.Img(src=app.get_asset_url('method.png'),style={'margin-top':1,'margin-left':0, 'width':'100%'}),
+                            # html.Div([
+                            # dash_table.DataTable(
+                            #     id='table',
+                            #     columns=[{"name": i, "id": i} 
+                            #                 for i in summaryStats.columns],
+                            #     data=summaryStats.to_dict('records'),
+                            #     style_cell=dict(textAlign='right',padding='2px 22px',border='1px solid black',fontFamily='Open Sans'),
+                            #     style_header=dict(backgroundColor="lavender",fontWeight='bold'),
+                            #     style_data=dict(backgroundColor="lavender",padding='2px 22px',border='1px solid black',whiteSpace='normal'),
+                            #     #style_table=dict(border='1px solid blue')
+                            #     )
+                            # ],className='table'),
 
 
-                        ],width=3
+                        ],width=1
 
                     ), # end of left column on canvas
                     
