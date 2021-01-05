@@ -106,7 +106,7 @@ layout = html.Div([ #canvas
                                 style={'font-size':16,'align':'center','margin-top':10,'padding':10,'margin-left':30,'background-color':'#00b3b3','border':'none','color':'#ffff',}
                                 )
 
-                        ],width = 3,className='nigel'
+                        ],width = 3,className='left-side-bar'
                     ), # end of left column on canvas
 
                     dbc.Col( # right column on canvas

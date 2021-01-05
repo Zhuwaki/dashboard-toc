@@ -52,7 +52,7 @@ layout = html.Div([ #canvas
                                 className='summary-survey'
                             ),                
 
-                        ],width = 2,className='nigel'
+                        ],width = 3,className='left-side-bar'
                     ), # end of left column on canvas
 
                     dbc.Col( # right column on canvas
@@ -87,7 +87,7 @@ layout = html.Div([ #canvas
                     
                 ],
                 
-                style={'height':'100vh'}
+                style={'height':'100vh','width':'100%'}
                 
             ) # end of row for content
 

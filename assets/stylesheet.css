@@ -1,18 +1,11 @@
+
 .DateInput_input{
     font-size: 15px;
 }
 
-.navbar.navbar-expand-md.navbar-light li a{
-    color: aliceblue;
-}
 
-.dropdown-menu.show{
-    background-color: #00b3b3;
-}
-.dropdown-item a{
-    background-color: #004d4d;
-}
-.nigel{
+
+.left-side-bar{
     background-color: #f0f5f5;
     margin-left: 0%;
     padding-left: 5%;
@@ -29,7 +22,6 @@
 .summary-image{
     margin-top: 5%;
     margin-left: 2%;
-   /** background-image: url("/assets/gaborone.png");**/
 }
 
 .table{
@@ -44,3 +36,4 @@
 .content{
     height: 100vh;
 }
+
