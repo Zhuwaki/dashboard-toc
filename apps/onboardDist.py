@@ -13,7 +13,7 @@ import plotly.express as px
 
 from app import app
 
-data = pandas.read_csv((r'C:\Users\nzhuw\Desktop\Data Science Projects\GoAscendal Projects\digital-innovation-maseru\models\cleanedob.csv'))
+data = pandas.read_csv((r'datasets/cleanedob.csv'))
 
 summaryStats = data.describe().T
 
