@@ -16,7 +16,7 @@ drop_down_list2 = ['Team A','Team B','Team C','Team D','Team E','Team F']
 drop_down_list3 = ['Maseru','Gaborone',]
 
 
-data = pandas.read_csv(r'datasets/dashboard.csv')
+data = pandas.read_csv(r'datasets/cleanedob.csv')
 
 
 
@@ -82,8 +82,8 @@ layout = html.Div([ #canvas
                                 day_size=39,
                                 with_portal=True,
                                 minimum_nights = 0,
-                                start_date=data['date'].iloc[0],
-                                end_date=data['date'].iloc[-1],
+                                start_date=data['date mapped'].iloc[0],
+                                end_date=data['date mapped'].iloc[-1],
                                 #persistence = True,
                                 #persisted_props=['start_date'],
                                 #persistence_type='session',
@@ -143,7 +143,7 @@ layout = html.Div([ #canvas
 def update_figure(selected_option,start_date,end_date): #function to update figure each time a new option is selected
     value = 'trip id' # key value for longform data function
 
-    dff = data[(data['date']>=start_date) & (data['date']<=end_date)]
+    dff = data[(data['date mapped']>=start_date) & (data['date mapped']<=end_date)]
 
 
     new_df = long_form(dff, selected_option, value) #(input data, selected attribute,value to use in count)
