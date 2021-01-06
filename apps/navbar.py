@@ -29,15 +29,28 @@ navbar =  dbc.NavbarSimple(
         in_navbar=True,
         label="Productivity",
     ),
-    dbc.DropdownMenu(
+        dbc.DropdownMenu(
         [
-            dbc.DropdownMenuItem('Onboard', href = '/apps/onboardDist'),
-            dbc.DropdownMenuItem('Intercept', href = '/apps/interceptDist'),
-            dbc.DropdownMenuItem('Rank', href = '/apps/rankDist'),
+            dbc.DropdownMenuItem('Intercept', href = '/apps/intercept_demo'),
+            # dbc.DropdownMenuItem('Intercept', href = '/apps/intercept'),
+            # dbc.DropdownMenuItem('Rank Count', href = '/apps/rankcount'),
+
+
         ],
         nav=True,
         in_navbar=True,
-        label="Survey",
+        label="Survey summary",
+    ),
+    
+    dbc.DropdownMenu(
+        [
+            dbc.DropdownMenuItem('Onboard distributions', href = '/apps/onboardDist'),
+            dbc.DropdownMenuItem('Intercept distributions', href = '/apps/interceptDist'),
+            dbc.DropdownMenuItem('Rank distributions', href = '/apps/rankDist'),
+        ],
+        nav=True,
+        in_navbar=True,
+        label="Distributions",
     ),
         dbc.DropdownMenu(
         [
