@@ -18,7 +18,7 @@ drop_down_list2 = ['Team A','Team B','Team C','Team D','Team E','Team F']
 
 #data = pandas.read_csv(r'datasets/dashboard.csv')
 
-data = pandas.read_csv(r'C:\Users\nzhuw\Desktop\Data Science Projects\GoAscendal Projects\digital-innovation-maseru\data\processed\Maseru_Clean_data.csv')
+data = pandas.read_csv(r'datasets\Maseru_Clean_data.csv')
 
 
 fig = make_subplots(rows=1, cols=3)
