@@ -75,7 +75,7 @@ layout = html.Div([ #canvas
 
                             dcc.RadioItems(
                                 options=[
-                                    {'label': 'Histogram       ', 'value': 'NYC'},
+                                    {'label': 'Histogram', 'value': 'NYC'},
                                     {'label': 'Boxplot', 'value': 'MTL'},
                                 ],
                                 value='MTL',className='radio'

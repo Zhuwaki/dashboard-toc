@@ -64,7 +64,7 @@ navbar =  dbc.NavbarSimple(
         
     )
         ],
-    brand = 'TOC',
+    brand = 'TOC Dashboard',
     brand_href ='/apps/onboard',
     color='#009999',
     brand_style={'color':'#ffff'},
