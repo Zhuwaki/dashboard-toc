@@ -41,7 +41,7 @@ fig.update_layout(showlegend=False)
 
 
 
-
+drop_down_list = ['route description','mapper','vehicle reg no','company']
 
 def get_options(drop_down_list): # function gets a list of options for drop down and creates a dictionary with label and value
     dict_list = []
@@ -56,7 +56,6 @@ def long_form(df, product, value): # function prepares the data into long form d
     new_df = new_df.set_index ( product )
     return new_df
 
-
 layout = html.Div([ #canvas
 
     html.Div( # division for content
@@ -65,15 +64,25 @@ layout = html.Div([ #canvas
                 [
                     dbc.Col( # left column on canvas
                         [
-                            
-                            html.Div(
-                                [
-                                    html.H6('Onboard summary statistics')
-                                ],
-                                className='summary-survey'
-                            ),                
+                            html.P('Select City'
+                            ,style={'font-size':20,'align':'justify','margin':0}), # first element of left column
+                            dcc.Dropdown(id='drop4',
+                            options = get_options(drop_down_list),
+                            value = 'mapper',
+                            placeholder='Please choose report',
+                            style = {'font-size':15,'margin':0}
+                            ), #second element of left column                            
 
-                        ],width = 2,className='left-side-bar'
+                            dcc.RadioItems(
+                                options=[
+                                    {'label': 'Histogram       ', 'value': 'NYC'},
+                                    {'label': 'Boxplot', 'value': 'MTL'},
+                                ],
+                                value='MTL',className='radio'
+                            ),                           
+                                                                           
+
+                        ],width = 3,className='left-side-bar'
                     ), # end of left column on canvas
                     
                     
