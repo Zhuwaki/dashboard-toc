@@ -67,7 +67,7 @@ layout = html.Div([ #canvas
                                     {'label': 'Payments','value':'pay'},
                               
                                 ],
-                                value='pay',className='radio'
+                                value='demo',className='radio'
                             ),                           
                                            
 

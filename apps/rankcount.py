@@ -13,7 +13,12 @@ drop_down_list = ['route description','mapper','vehicle reg no','company']
 
 drop_down_list2 = ['Team A','Team B','Team C','Team D','Team E','Team F']
 
-data = pandas.read_csv(r'datasets/dashboard.csv')
+drop_down_list3 = ['Maseru','Gaborone',]
+
+
+data = pandas.read_csv(r'datasets/cleanedob.csv')
+
+
 
 
 def get_options(drop_down_list): # function gets a list of options for drop down and creates a dictionary with label and value
@@ -30,7 +35,6 @@ def long_form(df, product, value): # function prepares the data into long form d
     return new_df
 
 
-
 layout = html.Div([ #canvas
 
     html.Div( # division for content
@@ -39,27 +43,38 @@ layout = html.Div([ #canvas
                 [
                     dbc.Col( # left column on canvas
                         [
-                            html.P('Example'
-                            ,style={'font-size':20,'align':'justify','margin':30}), # first element of left column
+                            
+                            html.Div(
+                                [
+                                    html.H5('Onboard results')
+                                ],
+                                className='summary-survey'
+                            ),
+                            html.P('Select City'
+                            ,style={'font-size':20,'align':'justify','margin':0,'padding':20}), # third element of left column
+
+                            dcc.Dropdown(id='drop2',
+                            options = get_options(drop_down_list3),
+                            value = 'Maseru',
+                            style = {'font-size':15,'align':'justify','margin':0,'padding':5}
+                            ), #fourth element of left column
+                            
+                            
+                            html.P('Select Summary'
+                            ,style={'font-size':20,'align':'justify','margin':0,'padding':20}), # first element of left column
 
                             dcc.Dropdown(id='drop',
                             options = get_options(drop_down_list),
                             value = 'mapper',
                             placeholder='Please choose report',
-                            style = {'font-size':15,'margin':10}
+                            style = {'font-size':15,'align':'justify','margin':0 ,'padding':5}
                             ), #second element of left column
 
 
-                            html.P('Select date range'
-                            ,style={'font-size':20,'align':'justify','margin':30}), # third element of left column
-
-                            # dcc.Dropdown(id='drop2',
-                            # options = get_options(drop_down_list2),
-                            # value = 'Team A',
-                            # style = {'font-size':10}
-                            # ), #fourth element of left column
-
-
+                            html.P('Select Date Range'
+                            ,style={'font-size':20,'align':'justify','margin':00,'padding':20}), # third element of left column
+                            
+                            
                             dcc.DatePickerRange(id='my-date-picker-range',
                                 start_date_placeholder_text='Start Period',
                                 end_date_placeholder_text='End Period',
@@ -67,14 +82,14 @@ layout = html.Div([ #canvas
                                 day_size=39,
                                 with_portal=True,
                                 minimum_nights = 0,
-                                start_date=data['date'].iloc[0],
-                                end_date=data['date'].iloc[-1],
+                                start_date=data['date mapped'].iloc[0],
+                                end_date=data['date mapped'].iloc[-1],
                                 #persistence = True,
                                 #persisted_props=['start_date'],
                                 #persistence_type='session',
                                 display_format='MMM Do, YYYY',
                                 updatemode='singledate',
-                                style={'font-size':2,'align':'justify','margin':10}
+                                style={'font-size':2,'align':'justify','padding':5}
                             ),
 
                             # html.Button(
@@ -88,21 +103,23 @@ layout = html.Div([ #canvas
                                 className='mr-1',
                                 outline = True,
                                 href='#',
-                                style={'font-size':16,'align':'justify','margin':50}
+                                style={'font-size':16,'align':'center','margin-top':10,'padding':10,'margin-left':30,'background-color':'#00b3b3','border':'none','color':'#ffff',}
                                 )
 
-                        ],width = 3,className='nigel'
+                        ],width = 3,className='left-side-bar'
                     ), # end of left column on canvas
 
                     dbc.Col( # right column on canvas
                         [
-                            dcc.Graph(id='my-graph3')
+                            dcc.Graph(id='my-graphh')
 
                         ],width=9
 
                     ) # end of left column on canvas
                     
-                ],style={'height':'100vh'}
+                ],
+                
+                style={'height':'100vh'}
                 
             ) # end of row for content
 
@@ -113,7 +130,7 @@ layout = html.Div([ #canvas
     ]) # end of canvas
 
 @app.callback(
-    Output(component_id = 'my-graph3',component_property = "figure"),
+    Output(component_id = 'my-graphh',component_property = "figure"),
     [
 
         Input(component_id = 'drop',component_property = 'value'),
@@ -126,7 +143,7 @@ layout = html.Div([ #canvas
 def update_figure(selected_option,start_date,end_date): #function to update figure each time a new option is selected
     value = 'trip id' # key value for longform data function
 
-    dff = data[(data['date']>=start_date) & (data['date']<=end_date)]
+    dff = data[(data['date mapped']>=start_date) & (data['date mapped']<=end_date)]
 
 
     new_df = long_form(dff, selected_option, value) #(input data, selected attribute,value to use in count)
