@@ -297,7 +297,7 @@ def update_figure(selected_option): #function to update figure each time a new o
         table = data.pivot_table(index='adhering_to_local_covid_regulations',values='key',aggfunc='count').reset_index()
         fig.append_trace({'x':table.adhering_to_local_covid_regulations,'y':table['key'],'type':'bar','name':'adhering_to_local_covid_regulations'},3,1)
 
-        fig.update_layout(showlegend=True,height=900,title_text='Passenger satisfaction')      
+        fig.update_layout(showlegend=True,height=900,title_text='Safety and Security')      
         
         return fig
     
