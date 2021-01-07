@@ -32,7 +32,7 @@ navbar =  dbc.NavbarSimple(
         dbc.DropdownMenu(
         [
             dbc.DropdownMenuItem('Intercept', href = '/apps/intercept_demo'),
-            # dbc.DropdownMenuItem('Intercept', href = '/apps/intercept'),
+            dbc.DropdownMenuItem('Onboard', href = '/apps/onboardData'),
             # dbc.DropdownMenuItem('Rank Count', href = '/apps/rankcount'),
 
 
