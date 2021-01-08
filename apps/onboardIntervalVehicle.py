@@ -129,9 +129,15 @@ def set_route_value(available_options):
         Input(component_id = 'city',component_property = 'value'),
         
         Input(component_id ='vehicle', component_property ='value'),
+        
+        Input('my-date-picker-range', 'start_date'),
+        Input('my-date-picker-range', 'end_date'),
         ]
     )
-def update_figure(city,vehicle): #function to update figure each time a new option is selected
+def update_figure(city,vehicle,start_date,end_date): #function to update figure each time a new option is selected
+    
+    data2 = data[(data['date mapped']>=start_date) & (data['date mapped']<=end_date)]
+    print(data2.shape)
     
     fig = make_subplots(rows=1, cols=1,)
  
@@ -140,7 +146,7 @@ def update_figure(city,vehicle): #function to update figure each time a new opti
     
     else:
         
-        dff = data[(data['city']==city) & (data['vehicle reg no'].isin(vehicle))]
+        dff = data2[(data2['city']==city) & (data2['vehicle reg no'].isin(vehicle))]
         
         table = dff.pivot_table(index='interval',values='total passengers',aggfunc='sum')
         table = table.reset_index()
