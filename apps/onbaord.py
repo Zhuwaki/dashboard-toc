@@ -89,7 +89,7 @@ layout = html.Div([ #canvas
                                 #persistence_type='session',
                                 display_format='MMM Do, YYYY',
                                 updatemode='singledate',
-                                style={'font-size':2,'align':'justify','padding':5}
+                                style={'font-size':2,'align':'justify','padding':5,'width':10}
                             ),
 
                             # html.Button(

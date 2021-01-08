@@ -38,7 +38,7 @@ layout = html.Div([ #canvas
                                     {'label': '     Vehicle summaries', 'value': 'demo'},
                                     {'label': '     Route summaries', 'value': 'hh'},
                                     {'label': '     Revenue per kilometer','value':'em'},
-                                    {'label': '     Passengers per hour','value':'cut'},
+                                    #{'label': '     Passengers per hour','value':'cut'},
                                     {'label': '     Distribution','value':'pass'},
                                 ],
                                 value='demo',className='radio'
