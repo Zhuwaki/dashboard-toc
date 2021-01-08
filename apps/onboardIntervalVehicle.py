@@ -53,7 +53,7 @@ layout = html.Div([ #canvas
                             ), #fourth element of left column  
                             
                             
-                            html.Label('Select route'
+                            html.Label('Select vehicle'
                             ,style={'font-size':20,'align':'justify','margin':0,'padding':10}), # first element of left column
                             dcc.Dropdown(id='vehicle',
                             options = [],

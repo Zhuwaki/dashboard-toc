@@ -134,8 +134,7 @@ def set_route_value(available_options):
 def update_figure(city,route): #function to update figure each time a new option is selected
     
     fig = make_subplots(rows=1, cols=1,)
-    print(route)
-    
+ 
     if len(route) == 0 :
         return dash.no_update
     
