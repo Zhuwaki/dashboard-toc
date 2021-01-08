@@ -7,7 +7,7 @@ from app import app
 from app import server
 from apps import navbar
 
-from apps import onbaord, interceptDist,rankcount,mapbox,projectsummary,maseruSummary,gaboroneSummary,geoIntercept,onboardDist,intercept_demographic,onboardData,onboardIntervalRoute
+from apps import onbaord, interceptDist,rankcount,mapbox,projectsummary,maseruSummary,gaboroneSummary,geoIntercept,onboardDist,intercept_demographic,onboardData,onboardIntervalRoute,onboardIntervalVehicle
 
 app.layout = html.Div([       
     navbar.navbar,
@@ -47,6 +47,8 @@ def display_page(pathname):
         return onboardData.layout
     elif pathname == '/apps/onboardIntervalRoute':
         return onboardIntervalRoute.layout
+    elif pathname == '/apps/onboardIntervalVehicle':
+        return onboardIntervalVehicle.layout
     else:
         return projectsummary.layout
 
