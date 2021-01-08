@@ -22,7 +22,7 @@ layout = html.Div([ #canvas
                             html.P('Quisque semper et eros nec porttitor. Praesent sed ornare erat. Donec tincidunt eu urna in eleifend. Pellentesque risus augue, accumsan non scelerisque at, dictum in lacus. Nam eget bibendum dolor. Aenean egestas augue dui, ac sollicitudin neque sagittis non. Maecenas quis odio eget libero dictum cursus. Sed quis efficitur felis. Duis sed arcu leo. Ut sodales faucibus convallis. Quisque placerat pretium elit, ac volutpat turpis luctus at. Nullam eget aliquam dui. Curabitur tristique metus malesuada, convallis tellus ac, congue mauris. Vivamus rhoncus laoreet diam a tempus. Donec consectetur, ligula vitae tincidunt venenatis, neque ligula ultricies ante, non commodo risus nulla at elit.'),
                             
 
-                        ],width = 3, className='summary'
+                        ],xs=12,sm=12,md=12,lg=3,xl=3, className='summary'
                     ), # end of left column on canvas
 
                     # dbc.Col( # right column on canvas
@@ -42,7 +42,7 @@ layout = html.Div([ #canvas
                             #html.Img(src=app.get_asset_url('maseru.png'),style={'margin-top':1,'margin-left':0, 'width':'40%'}),
 
 
-                        ],width=7,className='summary-image'
+                        ],xs=12,sm=12,md=12,lg=7,xl=7,className='summary-image'
 
                     ) # end of left column on canvas
                     

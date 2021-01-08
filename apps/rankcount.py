@@ -106,14 +106,14 @@ layout = html.Div([ #canvas
                                 style={'font-size':16,'align':'center','margin-top':10,'padding':10,'margin-left':30,'background-color':'#00b3b3','border':'none','color':'#ffff',}
                                 )
 
-                        ],width = 3,className='left-side-bar'
+                        ],xs=12,sm=12,md=12,lg=3,xl=3,className='left-side-bar'
                     ), # end of left column on canvas
 
                     dbc.Col( # right column on canvas
                         [
                             dcc.Graph(id='my-graphh')
 
-                        ],width=9
+                        ],xs=12,sm=12,md=12,lg=9,xl=9
 
                     ) # end of left column on canvas
                     

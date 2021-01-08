@@ -45,16 +45,6 @@ navbar =  dbc.NavbarSimple(
         label="Survey summary",
     ),
     
-    # dbc.DropdownMenu(
-    #     [
-    #         dbc.DropdownMenuItem('Onboard distributions', href = '/apps/onboardDist'),
-    #         dbc.DropdownMenuItem('Intercept distributions', href = '/apps/interceptDist'),
-    #         dbc.DropdownMenuItem('Rank distributions', href = '/apps/rankDist'),
-    #     ],
-    #     nav=True,
-    #     in_navbar=True,
-    #     label="Distributions",
-    # ),
         dbc.DropdownMenu(
         [
             dbc.DropdownMenuItem('Onbaord route map', href = '/apps/mapbox'),
