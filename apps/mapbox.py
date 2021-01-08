@@ -87,14 +87,14 @@ layout = html.Div([  # canvas
                             ],className='table'),
                            # html.Img(src=app.get_asset_url('GoMetro-2.png'),style={'margin-top':300,'margin-left':80, 'width':'20%'})
 
-                        ], width=3,className='nigel'
+                        ], xs=12,sm=12,md=12,lg=3,xl=3,className='left-side-bar'
                             
                     ),
 
                     dbc.Col(
                         [
                            dcc.Graph(id='mymap2',figure=fig)
-                        ],width=9
+                        ],xs=12,sm=12,md=12,lg=9,xl=9,
                     )
                 ],style={'height':'100vh'}
             ),  # end of row for content

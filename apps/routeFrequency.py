@@ -13,17 +13,20 @@ from plotly.subplots import make_subplots
 import plotly.express as px
 
 
-data = pandas.read_csv(r'datasets/onboard_combined.csv')
-data['interval'] = pandas.to_datetime(data['interval'])
+data = pandas.read_csv(r'datasets/Maseru_Labelled_Rank_Data.csv')
+data['interval'] = pandas.to_datetime(data['time_interval'])
+data['city'] ='Maseru'
+
+
 ref = pandas.read_csv(r'datasets/15_min_interval.csv')
 
 ref['interval'] = pandas.to_datetime(ref['interval'])
 
 
-data['tripRevenueKm'] = data['revenue']/data['distance']
-#replace inf which comes as a result of speed calculation
-data = data.replace([np.inf, -np.inf], np.nan)
-data = data.fillna(0)
+# data['tripRevenueKm'] = data['revenue']/data['distance']
+# #replace inf which comes as a result of speed calculation
+# data = data.replace([np.inf, -np.inf], np.nan)
+# data = data.fillna(0)
 
 layout = html.Div([ #canvas
 
@@ -35,7 +38,7 @@ layout = html.Div([ #canvas
                         [ 
                             html.Div(
                                 [
-                                    html.P('Route Passenger Demand')
+                                    html.P('Vehicle Passenger Demand')
                                 ],
                                 className='summary-survey'
                             ),
@@ -53,9 +56,9 @@ layout = html.Div([ #canvas
                             ), #fourth element of left column  
                             
                             
-                            html.Label('Select route'
+                            html.Label('Select origin'
                             ,style={'font-size':20,'align':'justify','margin':0,'padding':10}), # first element of left column
-                            dcc.Dropdown(id='route',
+                            dcc.Dropdown(id='origin',
                             options = [],
                             style = {'font-size':15,'align':'justify','margin':0,'padding':5},
                             placeholder='Select route',
@@ -71,8 +74,8 @@ layout = html.Div([ #canvas
                             day_size=39,
                             with_portal=True,
                             minimum_nights = 0,
-                            start_date=data['date mapped'].min(),
-                            end_date=data['date mapped'].max(),
+                            start_date=data['submissiondate'].min(),
+                            end_date=data['submissiondate'].max(),
                             #persistence = True,
                             #persisted_props=['start_date'],
                             #persistence_type='session',
@@ -88,7 +91,7 @@ layout = html.Div([ #canvas
 
                     dbc.Col( # right column on canvas
                         [
-                            dcc.Graph(id='my-graph4',figure={})
+                            dcc.Graph(id='my-graph6',figure={})
 
                         ],xs=12,sm=12,md=12,lg=9,xl=9
 
@@ -106,17 +109,17 @@ layout = html.Div([ #canvas
 
 
 @app.callback(
-    Output('route', 'options'),
+    Output('origin', 'options'),
     [Input('city', 'value')])
 
 def set_route_options(selected_city):
     dff = data[data.city == selected_city]
-    return [{'label': i, 'value': i} for i in sorted(dff.route_id.unique())]
+    return [{'label': i, 'value': i} for i in sorted(dff['origin'].unique())]
 
 
 @app.callback(
-    Output('route', 'value'),
-    [Input('route', 'options')])
+    Output('origin', 'value'),
+    [Input('origin', 'options')])
 
 def set_route_value(available_options):
     print(available_options)
@@ -124,39 +127,39 @@ def set_route_value(available_options):
 
 
 @app.callback(
-    Output(component_id = 'my-graph4',component_property = "figure"),
+    Output(component_id = 'my-graph6',component_property = "figure"),
     [
         Input(component_id = 'city',component_property = 'value'),
         
-        Input(component_id ='route', component_property ='value'),
+        Input(component_id ='origin', component_property ='value'),
         
         Input('my-date-picker-range', 'start_date'),
         Input('my-date-picker-range', 'end_date'),
         ]
     )
-def update_figure(city,route,start_date,end_date): #function to update figure each time a new option is selected
+def update_figure(city,origin,start_date,end_date): #function to update figure each time a new option is selected
     
-    data2 = data[(data['date mapped']>=start_date) & (data['date mapped']<=end_date)]
+    data2 = data[(data['submissiondate']>=start_date) & (data['submissiondate']<=end_date)]
     print(data2.shape)
-
+    print(origin)
     
     fig = make_subplots(rows=1, cols=1,)
  
-    if len(route) == 0 :
+    if len(origin) == 0 :
         return dash.no_update
     
     else:
         
-        dff = data2[(data2['city']==city) & (data2.route_id.isin(route))]
+        dff = data2[(data2['city']==city) & (data2['origin'].isin(origin))]
         
-        table = dff.pivot_table(index='interval',values='total passengers',aggfunc='sum')
+        table = dff.pivot_table(index='interval',values='key',aggfunc='count')
         table = table.reset_index()
         table2 = ref.merge(table,on='interval',how='outer')
         table2 = table2.fillna(0)
         table2['axis'] = pandas.to_datetime(table2['interval']).dt.time
         table2 = table2.sort_values(by='axis',ascending=True)
 
-        fig.append_trace({'x':table2['axis'],'y':table2['total passengers'],'type':'scatter','name':'Passenger per 15 min interval'},1,1)
+        fig.append_trace({'x':table2['axis'],'y':table2['key'],'type':'scatter','name':'Passenger per 15 min interval'},1,1)
         
         fig.update_layout(title_text="Passengers per 15 min interval")
         

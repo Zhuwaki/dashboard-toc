@@ -115,14 +115,14 @@ layout = html.Div([  # canvas
                         #    generate_table(df2)
                         
 
-                        ], width=3,className='nigel'
+                        ], xs=12,sm=12,md=12,lg=3,xl=3,className='left-side-bar'
                             
                     ),
 
                     dbc.Col(
                         [
                            dcc.Graph(id='mymap3',figure=fig)
-                        ],width=9
+                        ],xs=12,sm=12,md=12,lg=9,xl=9
                     )
                 ],style={'height':'100vh'}
             ),  # end of row for content
