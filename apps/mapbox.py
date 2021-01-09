@@ -6,6 +6,7 @@ import dash_html_components as html
 import dash_bootstrap_components as dbc
 from dash.dependencies import Input, Output
 import dash_table
+from plotly.subplots import make_subplots
 
 from datetime import datetime as dt
 
@@ -16,11 +17,12 @@ import numpy as np
 
 from app import app
 
-#from mapboxdata import df
 
-df = pandas.read_csv(r'datasets/geospatial.csv')
+df = pandas.read_csv(r'datasets/outputformapbox.csv')
 
 df2 = pandas.read_csv(r'datasets/onboard_sample.csv')
+
+df3 = pandas.read_csv(r'datasets/onboard_combined.csv')
 #df = df.drop_duplicates()
 print(df)
 df = df.set_index('date')
@@ -35,68 +37,83 @@ def get_options(drop_down_list):
 
 drop_down_list3 = ['Maseru', 'Gaborone', ]
 
-fig = px.line_mapbox(df,line_group=df['trip id'],lat=df.lat, lon=df.lon, hover_name=df.mapperName,
-                     mapbox_style="carto-positron", zoom=10.7, title='Paratransit network',height=600,color=df.routeID)
+# summaryStats = df3.describe().T
+# print(summaryStats)
+# summaryStats = summaryStats.drop(['trip id','on/off discrepancy','gps loss (km)','hour'])
+# summaryStats = summaryStats.round(0)
+# summaryStats = summaryStats.reset_index()
+# #summaryStats = summaryStats.drop(['count'])
+# #summaryStats = summaryStats.T
+# print(summaryStats)
+
+# fig = px.line_mapbox(df,line_group=df['trip id'],lat=df.lat, lon=df.lon, hover_name=df.mapperName,
+#                      mapbox_style="carto-positron", zoom=10.7, title='Paratransit network',height=600,color=df.routeName)
 
 
 layout = html.Div([  # canvas
 
     html.Div(  # division for content
         [
+            dbc.Row(
+                [          
+                    dbc.Col(
+                        
+                        [ 
+                            dcc.Dropdown(id='drop2',
+                            options = [{'label': s, 'value': s} for s in sorted(df.city.unique())],
+                            value='Maseru',
+                            style={'font-size': 15,
+                            'align': 'justify', 'margin': 0,'margin-top':10 }
+                            ),
+                        ],xs=12,sm=12,md=12,lg=6,xl=6,className='drop-down'
+                    ),
 
+                    dbc.Col(
+                        [
+                            dcc.Dropdown(id='drop-mode',
+                            options = [{'label': s, 'value': s} for s in sorted(df.city.unique())],
+                            value='Maseru',
+                            style={'font-size': 15,
+                            'align': 'justify', 'margin': 0,'margin-top':10 }
+                            ),
+                        ],xs=12,sm=12,md=12,lg=6,xl=6,className='drop-down'
+                    )
+
+                ]
+            ),
+            
+            
             dbc.Row(
                 [
                     dbc.Col(  # left column on canvas
                         [
 
-                            dcc.Dropdown(id='drop2',
-                            options=get_options(drop_down_list3),
-                            value='Maseru',
-                            style={'font-size': 15,
-                                'align': 'justify', 'margin': 0,'margin-top':60 }
-                            ),  # fourth element of left column
+  # fourth element of left column
 
-                            # dcc.DatePickerRange(id='my-date-picker-range',
-                            #     start_date_placeholder_text='Start Period',
-                            #     end_date_placeholder_text='End Period',
-                            #     calendar_orientation='horizontal',
-                            #     day_size=39,
-                            #     with_portal=True,
-                            #     minimum_nights=0,
-                            #     start_date=dt(2020, 12, 9).date(),
-                            #     end_date=dt(2020, 12, 31).date(),
-                            #     # persistence = True,
-                            #     # persisted_props=['start_date'],
-                            #     # persistence_type='session',
-                            #     display_format='MMM Do, YYYY',
-                            #     updatemode='singledate',
-                            #     style={'font-size': 2,
-                            #         'align': 'left', 'margin': 10}
-                            # )
                             html.Div([
-                            dash_table.DataTable(
-                                id='table',
-                                columns=[{"name": i, "id": i} 
-                                            for i in df2.columns],
-                                data=df2.to_dict('records'),
-                                style_cell=dict(textAlign='right',padding='2px 22px',border='1px solid black',fontFamily='Open Sans'),
-                                style_header=dict(backgroundColor="lavender",fontWeight='bold'),
-                                style_data=dict(backgroundColor="lavender",padding='2px 22px',border='1px solid black',whiteSpace='normal'),
-                                #style_table=dict(border='1px solid blue')
-                                )
-                            ],className='table'),
-                           # html.Img(src=app.get_asset_url('GoMetro-2.png'),style={'margin-top':300,'margin-left':80, 'width':'20%'})
+                            # dash_table.DataTable(
+                            #     id='table',
+                            #     columns=[{"id": i, "name": i} 
+                            #                 for i in summaryStats.columns.values],
+                            #     #data=df2.to_dict('records'),
+                            #     style_cell=dict(textAlign='right',padding='2px 22px',border='1px solid black',fontFamily='Arial, Helvetica, sans-serif'),
+                            #     style_header=dict(backgroundColor="lavender",fontWeight='bold'),
+                            #     style_data=dict(backgroundColor="lavender",padding='2px 22px',border='1px solid black',whiteSpace='normal'),
+                            #     style_table=dict(border='1px solid blue',overflowX = 'auto')
+                            dcc.Graph(id='barplot',figure={})
+                            #     )
+                            ]),
 
-                        ], xs=12,sm=12,md=12,lg=3,xl=3,className='left-side-bar'
+                        ], xs=12,sm=12,md=12,lg=6,xl=6,
                             
                     ),
 
                     dbc.Col(
                         [
-                           dcc.Graph(id='mymap2',figure=fig)
-                        ],xs=12,sm=12,md=12,lg=9,xl=9,
+                           dcc.Graph(id='mymap2',figure={})
+                        ],xs=12,sm=12,md=12,lg=6,xl=6,
                     )
-                ],style={'height':'100vh'}
+                ],
             ),  # end of row for content
 
                 ]
@@ -107,23 +124,53 @@ layout = html.Div([  # canvas
 
 
   # end of canvas
+  
 
-# @app.callback(
-#     Output('mymap2', 'figure'),
-#     [Input('my-date-picker-range', 'start_date'),
-#      Input('my-date-picker-range', 'end_date')]
-# )
-# def update_output(start_date, end_date):
-#     # print("Start date: " + start_date)
-#     # print("End date: " + end_date)
-#     dff=df.loc[start_date:end_date]
-#     # print(dff[:5])
+@app.callback(
+    Output('barplot','figure'),
+    [
+        Input('drop2','value')
+    ]
+)
+def displaytable(cityselect):
     
-#     fig = px.line_mapbox(dff,line_group=dff['trip id'],lat=dff.lat, lon=dff.lon, hover_name=dff.mapperName,
-#                      mapbox_style="carto-positron", zoom=10.7, title='Paratransit network',height=600,color=dff.routeID)
+    dff = df3[df3.city == cityselect]
 
-#     # fig=px.density_mapbox(dff, lat = 'LATITUDE', lon = 'LONGITUDE', z = 'APP_SQ_FT', radius = 13, zoom = 10, height = 650,
-#     #                         center = dict(lat=40.751418, lon=-73.963878), mapbox_style = "carto-positron",
-#     #                         hover_data = {'BUSINESS_NAME': True, 'LATITUDE': False, 'LONGITUDE': False,
-#     #                                     'APP_SQ_FT': True})
-#     return fig
+    fig = make_subplots(rows=2, cols=3)
+
+    fig.append_trace({'y':dff.distance,'type':'box','name':'distance'},1,1)
+    fig.append_trace({'y':dff.revenue,'type':'box','name':'revenue'},1,2)
+    fig.append_trace({'y':dff['total passengers'],'type':'box','name':'total passengers'},1,3)
+
+    fig.append_trace({'y':dff['number of stops'],'type':'box','name':'number of stops'},2,1)
+
+    fig.append_trace({'y':dff.travel_time_min,'type':'box','name':'travel time'},2,2)
+    fig.append_trace({'y':dff.speed,'type':'box','name':'speed'},2,3)
+
+              
+    fig.update_layout(showlegend=False,title='Distribution of trip charactersrtics')
+   
+    return fig
+
+@app.callback(
+    Output('mymap2', 'figure'),
+    [
+        
+        Input('drop2', 'value'),
+        #Input('my-date-picker-range', 'end_date')
+        
+    ]
+)
+def update_output(cityselect):
+
+    
+    dff = df[df.city == cityselect]
+
+    fig = px.line_mapbox(dff,line_group=dff['trip id'],lat=dff.lat, lon=dff.lon, hover_name=dff.mapperName,
+                     mapbox_style="carto-positron", zoom=10.7, title='Paratransit network',color=dff.routeName)
+
+    # fig=px.density_mapbox(dff, lat = 'LATITUDE', lon = 'LONGITUDE', z = 'APP_SQ_FT', radius = 13, zoom = 10, height = 650,
+    #                         center = dict(lat=40.751418, lon=-73.963878), mapbox_style = "carto-positron",
+    #                         hover_data = {'BUSINESS_NAME': True, 'LATITUDE': False, 'LONGITUDE': False,
+    #                                     'APP_SQ_FT': True})
+    return fig

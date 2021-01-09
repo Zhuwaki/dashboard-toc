@@ -12,7 +12,7 @@ from plotly.subplots import make_subplots
 import plotly.express as px
 
 
-data = pandas.read_csv(r'datasets/cleanedob.csv')
+data = pandas.read_csv(r'datasets/onboard_combined.csv')
 data['interval'] = pandas.to_datetime(data['interval'])
 ref = pandas.read_csv(r'datasets/15_min_interval.csv')
 
@@ -33,6 +33,15 @@ layout = html.Div([ #canvas
                 [
                     dbc.Col( # left column on canvas
                         [
+                            dcc.Dropdown(id='cityOP',
+                            options = [{'label': s, 'value': s} for s in sorted(data.city.unique())],
+                            value = 'Maseru',
+                            style = {'font-size':15,'align':'justify','margin':0,'padding':5},
+                            placeholder='Select city',
+                            clearable=False,
+
+                            ), #fourth element of left column  
+                            
                             dcc.RadioItems(id='radiobtn',
                                 options=[
                                     {'label': '     Vehicle summaries', 'value': 'demo'},
@@ -69,28 +78,37 @@ layout = html.Div([ #canvas
     Output(component_id = 'my-graph3',component_property = "figure"),
     [
         Input(component_id = 'radiobtn',component_property = 'value'),
+        
+        Input(component_id = 'cityOP',component_property = 'value'),
+
  
         ]
 
     )
-def update_figure(selected_option): #function to update figure each time a new option is selected
+def update_figure(selected_option,cityOP): #function to update figure each time a new option is selected
+    
+    
+    data2 = data[data['city']==cityOP]
+
+    
+    
     
     if selected_option == 'demo':
         
         fig = make_subplots(rows=4, cols=1)
-        table = data.pivot_table(index='vehicle reg no',values='total passengers',aggfunc='sum')
+        table = data2.pivot_table(index='vehicle reg no',values='total passengers',aggfunc='sum')
         table = table.sort_values(by='total passengers',ascending=False)
         fig.append_trace({'x':table.index,'y':table['total passengers'],'type':'bar','name':'total passengers'},1,1)
         
-        table = data.pivot_table(index='vehicle reg no',values='revenue',aggfunc='sum')
+        table = data2.pivot_table(index='vehicle reg no',values='revenue',aggfunc='sum')
         table = table.sort_values(by='revenue',ascending=False)
         fig.append_trace({'x':table.index,'y':table['revenue'],'type':'bar','name':'revenue per vehicle'},2,1) 
         
-        table = data.pivot_table(index='vehicle reg no',values='distance',aggfunc='sum')
+        table = data2.pivot_table(index='vehicle reg no',values='distance',aggfunc='sum')
         table = table.sort_values(by='distance',ascending=False)
         fig.append_trace({'x':table.index,'y':table['distance'],'type':'bar','name':'distance in km'},3,1) 
         
-        table = data.pivot_table(index='vehicle reg no',values='trip id',aggfunc='count')
+        table = data2.pivot_table(index='vehicle reg no',values='trip id',aggfunc='count')
         table = table.sort_values(by='trip id',ascending=False)
         fig.append_trace({'x':table.index,'y':table['trip id'],'type':'bar','name':'number of trips'},4,1) 
                    
@@ -101,19 +119,19 @@ def update_figure(selected_option): #function to update figure each time a new o
     elif selected_option == 'hh':
         
         fig = make_subplots(rows=4, cols=1)
-        table = data.pivot_table(index='route_id',values='total passengers',aggfunc='sum')
+        table = data2.pivot_table(index='route_id',values='total passengers',aggfunc='sum')
         table = table.sort_values(by='total passengers',ascending=False)
         fig.append_trace({'x':table.index,'y':table['total passengers'],'type':'bar','name':'total passengers'},1,1)
         
-        table = data.pivot_table(index='route_id',values='revenue',aggfunc='sum')
+        table = data2.pivot_table(index='route_id',values='revenue',aggfunc='sum')
         table = table.sort_values(by='revenue',ascending=False)
         fig.append_trace({'x':table.index,'y':table['revenue'],'type':'bar','name':'revenue per vehicle'},2,1) 
         
-        table = data.pivot_table(index='route_id',values='distance',aggfunc='sum')
+        table = data2.pivot_table(index='route_id',values='distance',aggfunc='sum')
         table = table.sort_values(by='distance',ascending=False)
         fig.append_trace({'x':table.index,'y':table['distance'],'type':'bar','name':'distance in km'},3,1) 
         
-        table = data.pivot_table(index='route_id',values='trip id',aggfunc='count')
+        table = data2.pivot_table(index='route_id',values='trip id',aggfunc='count')
         table = table.sort_values(by='trip id',ascending=False)
         fig.append_trace({'x':table.index,'y':table['trip id'],'type':'bar','name':'number of trips'},4,1) 
                    
@@ -131,10 +149,10 @@ def update_figure(selected_option): #function to update figure each time a new o
             print_grid=True,vertical_spacing=0.15)
 
 
-        table = data.pivot_table(index='vehicle reg no',values='tripRevenueKm',aggfunc='mean').reset_index().sort_values(by='tripRevenueKm',ascending=False)
+        table = data2.pivot_table(index='vehicle reg no',values='tripRevenueKm',aggfunc='mean').reset_index().sort_values(by='tripRevenueKm',ascending=False)
         fig.append_trace({'x':table['vehicle reg no'],'y':table['tripRevenueKm'],'type':'bar','name':'Average trip earning potential'},1,1)
         
-        table = data.pivot_table(index=['vehicle reg no'],values=['revenue','distance'],aggfunc='mean').reset_index()        
+        table = data2.pivot_table(index=['vehicle reg no'],values=['revenue','distance'],aggfunc='mean').reset_index()        
         table['vehicleRevenueKm'] = table.revenue/table.distance
         
         #replace inf which comes as a result of speed calculation
@@ -152,7 +170,7 @@ def update_figure(selected_option): #function to update figure each time a new o
         rows=1, cols=1,  
         )
 
-        table = data.pivot_table(index='interval',values='total passengers',aggfunc='sum')
+        table = data2.pivot_table(index='interval',values='total passengers',aggfunc='sum')
         table = table.reset_index()
         table2 = ref.merge(table,on='interval',how='outer')
         table2 = table2.fillna(0)
@@ -170,14 +188,14 @@ def update_figure(selected_option): #function to update figure each time a new o
     else:
         fig = make_subplots(rows=2, cols=3,subplot_titles=("distance", "revenue",'total passengers','number of stops','travel time','speed'))
 
-        fig.append_trace({'y':data.revenue,'type':'box','name':'distance'},1,1)
-        fig.append_trace({'y':data.revenue,'type':'box','name':'revenue'},1,2)
-        fig.append_trace({'y':data['total passengers'],'type':'box','name':'total passengers'},1,3)
+        fig.append_trace({'y':data2.distance,'type':'box','name':'distance'},1,1)
+        fig.append_trace({'y':data2.revenue,'type':'box','name':'revenue'},1,2)
+        fig.append_trace({'y':data2['total passengers'],'type':'box','name':'total passengers'},1,3)
 
-        fig.append_trace({'y':data['number of stops'],'type':'box','name':'number of stops'},2,1)
+        fig.append_trace({'y':data2['number of stops'],'type':'box','name':'number of stops'},2,1)
 
-        fig.append_trace({'y':data.travel_time_min,'type':'box','name':'travel time'},2,2)
-        fig.append_trace({'y':data.speed,'type':'box','name':'speed'},2,3)
+        fig.append_trace({'y':data2.travel_time_min,'type':'box','name':'travel time'},2,2)
+        fig.append_trace({'y':data2.speed,'type':'box','name':'speed'},2,3)
 
                     
         fig.update_layout()

@@ -19,9 +19,9 @@ navbar =  dbc.NavbarSimple(
     
     dbc.DropdownMenu(
         [
-            dbc.DropdownMenuItem('Onboard surveys', href = '/apps/onboard'),
-            dbc.DropdownMenuItem('Intercept surveys', href = '/apps/intercept'),
-            dbc.DropdownMenuItem('Rank Count surveys', href = '/apps/rankcount'),
+            dbc.DropdownMenuItem('Onboard surveys', href = '/apps/onboardProductivity'),
+            dbc.DropdownMenuItem('Intercept surveys', href = '/apps/interceptProductivity'),
+            dbc.DropdownMenuItem('Rank Count surveys', href = '/apps/rankcountProductivity'),
 
 
         ],

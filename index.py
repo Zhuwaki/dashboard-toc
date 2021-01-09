@@ -7,7 +7,7 @@ from app import app
 from app import server
 from apps import navbar
 
-from apps import onbaord, interceptDist,rankcount,mapbox,projectsummary,maseruSummary,gaboroneSummary,geoIntercept,onboardDist,intercept_demographic,onboardData,onboardIntervalRoute,onboardIntervalVehicle,routeFrequency
+from apps import onboardProductivity, interceptProductivity,rankcountProductivity,mapbox,projectsummary,maseruSummary,gaboroneSummary,geoIntercept,onboardDist,intercept_demographic,onboardData,onboardIntervalRoute,onboardIntervalVehicle,routeFrequency
 
 app.layout = html.Div([       
     navbar.navbar,
@@ -19,12 +19,12 @@ app.layout = html.Div([
               Input('url', 'pathname'))
 def display_page(pathname):
 
-    if pathname == '/apps/onboard':
-        return onbaord.layout
-    elif pathname == '/apps/intercept':
-        return onbaord.layout
-    elif pathname == '/apps/rankcount':
-        return rankcount.layout
+    if pathname == '/apps/onboardProductivity':
+        return onboardProductivity.layout
+    elif pathname == '/apps/interceptProductivity':
+        return interceptProductivity.layout
+    elif pathname == '/apps/rankcountProductivity':
+        return rankcountProductivity.layout
     elif pathname == '/apps/projectsummary':
         return projectsummary.layout
     elif pathname == '/apps/maseruSummary':
@@ -37,8 +37,8 @@ def display_page(pathname):
         return geoIntercept.layout
     elif pathname == '/apps/onboardDist':
         return onboardDist.layout
-    elif pathname == '/apps/interceptDist':
-        return interceptDist.layout
+    elif pathname == '/apps/interceptProductivity':
+        return interceptProductivity.layout
     elif pathname == '/apps/rankDist':
         return onboardDist.layout
     elif pathname == '/apps/intercept_demo':
