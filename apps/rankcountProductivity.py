@@ -1,0 +1,142 @@
+import pandas
+import plotly.graph_objects as go
+import dash_core_components as dcc
+import dash_html_components as html
+import dash_bootstrap_components as dbc
+from dash.dependencies import Input, Output
+
+from app import app
+
+
+
+drop_down_list = ['username','deviceid']
+data = pandas.read_csv(r'datasets/combinedRank.csv')
+
+
+# def get_options(drop_down_list): # function gets a list of options for drop down and creates a dictionary with label and value
+#     dict_list = []
+#     for i in drop_down_list:
+#         dict_list.append({'label':i,'value':i})
+#     return dict_list
+
+
+# def long_form(df, product, value): # function prepares the data into long form data - current understanding can only plot long form data
+#     new_df = df.pivot_table ( index = [product], values = value, aggfunc = 'count' ).reset_index ()
+#     new_df = new_df.sort_values(by=value,ascending=True)
+#     new_df = new_df.set_index ( product )
+#     return new_df
+
+
+layout = html.Div([ #canvas
+
+    html.Div( # division for content
+        [
+            dbc.Row( # row for content
+                [
+                    dbc.Col( # left column on canvas
+                        [
+
+                            html.P('Select City'
+                            ,style={'font-size':20,'align':'justify','margin':0,'padding':20}), # third element of left column
+
+                            dcc.Dropdown(id='cityProdR',
+                            options = [{'label': s, 'value': s} for s in sorted(data.city.unique())],
+                            value = 'Maseru',
+                            style = {'font-size':15,'align':'justify','margin':0,'padding':5}
+                            ), #fourth element of left colum
+                                 
+                            html.P('Select Summary'
+                            ,style={'font-size':20,'align':'justify','margin':0,'padding':20}), # first element of left column
+
+                            dcc.Dropdown(id='variableProdR',
+                            #options = get_options(drop_down_list),
+                            value = 'username',
+                            placeholder='Please choose report',
+                            style = {'font-size':15,'align':'justify','margin':0 ,'padding':5}
+                            ), #second element of left column
+                            
+                            dcc.DatePickerRange(id='my-date-picker-range',
+                            start_date_placeholder_text='Start Period',
+                            end_date_placeholder_text='End Period',
+                            calendar_orientation = 'horizontal',
+                            day_size=39,
+                            with_portal=True,
+                            minimum_nights = 0,
+                            start_date=data['date'].min(),
+                            end_date=data['date'].max(),
+                            #persistence = True,
+                            #persisted_props=['start_date'],
+                            #persistence_type='session',
+                            display_format='MMM Do, YYYY',
+                            updatemode='singledate',
+                            style={'font-size':0,'align':'center','padding':5,'width':205}
+                        ), 
+   
+
+                        ],xs=12,sm=12,md=12,lg=3,xl=3,className='left-side-bar'
+                    ), # end of left column on canvas
+
+                    dbc.Col( # right column on canvas
+                        [
+                            dcc.Graph(id='my-graph-intercept-productivityR')
+
+                        ],xs=12,sm=12,md=12,lg=9,xl=9,
+
+                    ) # end of left column on canvas
+                    
+                ],
+                
+                style={'height':'100vh'}
+                
+            ) # end of row for content
+
+        ]
+    ), # end of division for content
+    
+
+    ]) # end of canvas
+
+
+
+
+@app.callback(
+    Output('variableProdR', 'options'),
+    [Input('cityProdR', 'value')])
+
+def set_route_options(selected_city):
+    dff = data[data.city == selected_city]
+    return [{'label': i, 'value': i} for i in drop_down_list ]
+
+@app.callback(
+    Output(component_id = 'my-graph-intercept-productivityR',component_property = "figure"),
+    [
+        
+        Input(component_id = 'cityProdR',component_property = 'value'),
+        Input(component_id = 'variableProdR',component_property = 'value'),
+
+
+        Input('my-date-picker-range', 'start_date'),
+        Input('my-date-picker-range', 'end_date'),
+
+        ]
+
+    )
+def update_figure(cityProdR,variableProdR,start_date,end_date): #function to update figure each time a new option is selected
+    value = 'key' # key value for longform data function
+    #variable='mapper'
+
+    data2 = data[data['city']==cityProdR]
+    
+    dff = data2[(data2['date']>=start_date) & (data2['date']<=end_date)]
+    
+    table = dff.pivot_table(index=variableProdR,values=value,aggfunc='count').reset_index()
+    table = table.sort_values(by=value,ascending=False)
+    
+    trace = go.Bar(x = table[variableProdR], y=table[value],marker_color='lightseagreen')
+
+    layout = go.Layout( title = variableProdR,xaxis={'title':variableProdR},yaxis = {'title':'Total'},
+                        barmode = 'stack', height = 500,margin={'b':0})
+
+    fig = go.Figure ( data = [trace], layout = layout )
+    fig.update_layout()
+    return fig

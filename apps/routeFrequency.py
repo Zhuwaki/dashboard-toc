@@ -13,9 +13,8 @@ from plotly.subplots import make_subplots
 import plotly.express as px
 
 
-data = pandas.read_csv(r'datasets/Maseru_Labelled_Rank_Data.csv')
+data = pandas.read_csv(r'datasets/combinedRank.csv')
 data['interval'] = pandas.to_datetime(data['time_interval'])
-data['city'] ='Maseru'
 
 
 ref = pandas.read_csv(r'datasets/15_min_interval.csv')
@@ -74,8 +73,8 @@ layout = html.Div([ #canvas
                             day_size=39,
                             with_portal=True,
                             minimum_nights = 0,
-                            start_date=data['submissiondate'].min(),
-                            end_date=data['submissiondate'].max(),
+                            start_date=data['date'].min(),
+                            end_date=data['date'].max(),
                             #persistence = True,
                             #persisted_props=['start_date'],
                             #persistence_type='session',
@@ -139,7 +138,7 @@ def set_route_value(available_options):
     )
 def update_figure(city,origin,start_date,end_date): #function to update figure each time a new option is selected
     
-    data2 = data[(data['submissiondate']>=start_date) & (data['submissiondate']<=end_date)]
+    data2 = data[(data['date']>=start_date) & (data['date']<=end_date)]
     print(data2.shape)
     print(origin)
     
