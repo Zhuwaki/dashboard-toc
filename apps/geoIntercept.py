@@ -19,14 +19,14 @@ from app import app
 #from mapboxdata import df
 
 df = pandas.read_csv(r'datasets/Intercept_Arusha.csv')
-df2 = pandas.read_csv(r'datasets/sample.csv')
-print(df2)
+#df2 = pandas.read_csv(r'datasets/sample.csv')
+#print(df2)
 
 
 df = df[['SubmissionDate','geolocation-Latitude','geolocation-Longitude','gender']]
 df = df.dropna()
 #df = df.drop_duplicates()
-print(df)
+#print(df)
 #df = df.set_index('date')
 
 # function gets a list of options for drop down and creates a dictionary with label and value
@@ -96,18 +96,18 @@ layout = html.Div([  # canvas
                             #     style={'font-size': 2,
                             #         'align': 'left', 'margin': 10}
                             # )
-                            html.Div([
-                            dash_table.DataTable(
-                                id='table',
-                                columns=[{"name": i, "id": i} 
-                                            for i in df2.columns],
-                                data=df2.to_dict('records'),
-                                style_cell=dict(textAlign='right',padding='2px 22px',border='1px solid black',fontFamily='Open Sans'),
-                                style_header=dict(backgroundColor="paleturquoise",fontWeight='bold'),
-                                style_data=dict(backgroundColor="lavender",padding='2px 22px',border='1px solid black',whiteSpace='normal'),
-                                #style_table=dict(border='1px solid blue')
-                                )
-                            ],className='table'),
+                            # html.Div([
+                            # dash_table.DataTable(
+                            #     id='table',
+                            #     columns=[{"name": i, "id": i} 
+                            #                 for i in df2.columns],
+                            #     data=df2.to_dict('records'),
+                            #     style_cell=dict(textAlign='right',padding='2px 22px',border='1px solid black',fontFamily='Open Sans'),
+                            #     style_header=dict(backgroundColor="paleturquoise",fontWeight='bold'),
+                            #     style_data=dict(backgroundColor="lavender",padding='2px 22px',border='1px solid black',whiteSpace='normal'),
+                            #     #style_table=dict(border='1px solid blue')
+                            #     )
+                            # ],className='table'),
                             
                             #dcc.Graph(id='table',figure=fig2)
                            # html.Img(src=app.get_asset_url('GoMetro-2.png'),style={'margin-top':300,'margin-left':80, 'width':'20%'})

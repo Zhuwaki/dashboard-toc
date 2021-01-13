@@ -13,7 +13,7 @@ from plotly.subplots import make_subplots
 import plotly.express as px
 
 
-data = pandas.read_csv(r'datasets/onboard_combined.csv')
+data = pandas.read_csv(r'datasets/combined_mode_cleanedob.csv')
 data['interval'] = pandas.to_datetime(data['interval'])
 ref = pandas.read_csv(r'datasets/15_min_interval.csv')
 
@@ -143,7 +143,7 @@ def update_figure(city,route,start_date,end_date): #function to update figure ea
     fig = make_subplots(rows=1, cols=1,)
  
     if len(route) == 0 :
-        return dash.no_update
+        return {'data':[]}
     
     else:
         

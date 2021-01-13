@@ -22,11 +22,6 @@ ref = pandas.read_csv(r'datasets/15_min_interval.csv')
 ref['interval'] = pandas.to_datetime(ref['interval'])
 
 
-# data['tripRevenueKm'] = data['revenue']/data['distance']
-# #replace inf which comes as a result of speed calculation
-# data = data.replace([np.inf, -np.inf], np.nan)
-# data = data.fillna(0)
-
 layout = html.Div([ #canvas
 
     html.Div( # division for content
@@ -145,7 +140,7 @@ def update_figure(city,origin,start_date,end_date): #function to update figure e
     fig = make_subplots(rows=1, cols=1,)
  
     if len(origin) == 0 :
-        return dash.no_update
+        return {'data':[]}
     
     else:
         
