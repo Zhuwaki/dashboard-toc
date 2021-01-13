@@ -10,7 +10,7 @@ from app import app
 
 
 drop_down_list = ['route_id','mapper','vehicle reg no','company']
-data = pandas.read_csv(r'datasets/onboard_combined.csv')
+data = pandas.read_csv(r'datasets/combined_mode_cleanedob.csv')
 
 
 def get_options(drop_down_list): # function gets a list of options for drop down and creates a dictionary with label and value
@@ -124,19 +124,34 @@ def set_route_options(selected_city):
 def update_figure(city,variable,start_date,end_date): #function to update figure each time a new option is selected
     value = 'trip id' # key value for longform data function
     #variable='mapper'
-
-    data2 = data[data['city']==city]
+    print(start_date)
     
-    dff = data2[(data2['date mapped']>=start_date) & (data2['date mapped']<=end_date)]
+    if variable == None :
+        
+        return {'data':[]}
     
-    table = dff.pivot_table(index=variable,values='trip id',aggfunc='count').reset_index()
-    table = table.sort_values(by=value,ascending=False)
+    elif start_date < data['date mapped'].min():
+        
+        return {'data':[]}
     
-    trace = go.Bar(x = table[variable], y=table['trip id'],marker_color='lightseagreen')
+    elif end_date > data['date mapped'].max():
+            
+        return {'data':[]}
+        
+    else:
 
-    layout = go.Layout( title = variable,xaxis={'title':variable},yaxis = {'title':'Total'},
-                        barmode = 'stack', height = 500,margin={'b':0})
+        data2 = data[data['city']==city]
+        
+        dff = data2[(data2['date mapped']>=start_date) & (data2['date mapped']<=end_date)]
+        
+        table = dff.pivot_table(index=variable,values='trip id',aggfunc='count').reset_index()
+        table = table.sort_values(by=value,ascending=False)
+        
+        trace = go.Bar(x = table[variable], y=table['trip id'],marker_color='lightseagreen')
 
-    fig = go.Figure ( data = [trace], layout = layout )
-    fig.update_layout()
-    return fig
+        layout = go.Layout( title = variable,xaxis={'title':variable},yaxis = {'title':'Total'},
+                            barmode = 'stack', height = 500,margin={'b':0})
+
+        fig = go.Figure ( data = [trace], layout = layout )
+        fig.update_layout()
+        return fig

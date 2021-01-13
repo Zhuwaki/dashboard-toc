@@ -5,7 +5,7 @@ import shapely.geometry
 import numpy as np
 
 #Read trip data
-df = pandas.read_csv('datasets/mapboxv2.csv')
+df = pandas.read_csv('datasets/trips_4_mapbox_algo.csv')
 
 
 df['date mapped'] = pandas.to_datetime(df['date mapped'])
@@ -37,8 +37,9 @@ routes = []
 vehicles =[]
 trips=[]
 cities=[]
+modes = []
 
-for feature, name, date,company,route,vehicle,trip,city in zip(gdf.geometry, gdf.mapper,gdf.index,gdf['company'],gdf['route_id'],gdf['vehicle reg no'],gdf['trip id'],gdf['city']):
+for feature, name, date,company,route,vehicle,trip,city,mode in zip(gdf.geometry, gdf.mapper,gdf.index,gdf['company'],gdf['route_id'],gdf['vehicle reg no'],gdf['trip id'],gdf['city'],gdf['vehicle type']):
     if isinstance(feature, shapely.geometry.linestring.LineString):
         linestrings = [feature]
     elif isinstance(feature, shapely.geometry.multilinestring.MultiLineString):
@@ -58,6 +59,8 @@ for feature, name, date,company,route,vehicle,trip,city in zip(gdf.geometry, gdf
         dates = np.append(dates, [date]*len(y))
         trips = np.append(trips, [trip]*len(y))
         cities = np.append(cities, [city]*len(y))
+        modes = np.append(modes, [mode]*len(y))
+
 
 
         lats = np.append(lats, None)
@@ -69,7 +72,7 @@ for feature, name, date,company,route,vehicle,trip,city in zip(gdf.geometry, gdf
         dates = np.append(dates, None)
         trips = np.append(trips, None)
         cities = np.append(cities, None)
-
+        modes = np.append(modes, None)
 
 
 lat = lats.tolist()
@@ -81,11 +84,13 @@ route = routes.tolist()
 name = names.tolist()
 trip = trips.tolist()
 city = cities.tolist()
+mode = modes.tolist()
 
-df = pandas.DataFrame(list(zip(lat, lon,date,assoc,vehicle,route,name,trip,city)),columns =['lat', 'lon','date','company','vehicleReg','routeName','mapperName','trip id','city'])
+
+df = pandas.DataFrame(list(zip(lat, lon,date,assoc,vehicle,route,name,trip,city,mode)),columns =['lat', 'lon','date','company','vehicleReg','routeName','mapperName','trip id','city','vehicle type'])
 df = df.set_index('date')
 df = df.dropna()
 df = df.drop_duplicates()
 
-df.to_csv(r'datasets/outputformapbox2.csv')
-print(df.head())
+df.to_csv(r'datasets/mapbox_trips_output.csv')
+#print(df.head())

@@ -13,13 +13,13 @@ import plotly.express as px
 
 from app import app
 
-data = pandas.read_csv((r'datasets/cleanedob.csv'))
+data = pandas.read_csv((r'datasets/combined_mode_cleanedob.csv'))
 
 summaryStats = data.describe().T
 
 summaryStats = summaryStats.drop(['trip id','on/off discrepancy','gps loss (km)','hour'])
 
-print(summaryStats)
+#print(summaryStats)
 summaryStats = summaryStats.reset_index()
 
 summaryStats = summaryStats.round(0)

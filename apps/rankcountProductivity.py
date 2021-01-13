@@ -7,25 +7,8 @@ from dash.dependencies import Input, Output
 
 from app import app
 
-
-
 drop_down_list = ['username','deviceid']
 data = pandas.read_csv(r'datasets/combinedRank.csv')
-
-
-# def get_options(drop_down_list): # function gets a list of options for drop down and creates a dictionary with label and value
-#     dict_list = []
-#     for i in drop_down_list:
-#         dict_list.append({'label':i,'value':i})
-#     return dict_list
-
-
-# def long_form(df, product, value): # function prepares the data into long form data - current understanding can only plot long form data
-#     new_df = df.pivot_table ( index = [product], values = value, aggfunc = 'count' ).reset_index ()
-#     new_df = new_df.sort_values(by=value,ascending=True)
-#     new_df = new_df.set_index ( product )
-#     return new_df
-
 
 layout = html.Div([ #canvas
 
@@ -96,9 +79,6 @@ layout = html.Div([ #canvas
 
     ]) # end of canvas
 
-
-
-
 @app.callback(
     Output('variableProdR', 'options'),
     [Input('cityProdR', 'value')])
@@ -124,7 +104,7 @@ def set_route_options(selected_city):
 def update_figure(cityProdR,variableProdR,start_date,end_date): #function to update figure each time a new option is selected
     value = 'key' # key value for longform data function
     #variable='mapper'
-
+    
     data2 = data[data['city']==cityProdR]
     
     dff = data2[(data2['date']>=start_date) & (data2['date']<=end_date)]
