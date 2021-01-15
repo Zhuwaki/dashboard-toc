@@ -5,7 +5,6 @@ import dash_core_components as dcc
 import dash_html_components as html
 import dash_bootstrap_components as dbc
 from dash.dependencies import Input, Output
-import dash_table
 from plotly.subplots import make_subplots
 
 from datetime import datetime as dt
@@ -80,10 +79,10 @@ layout = html.Div([  # canvas
                            dcc.Graph(id='mymap2',figure={})
                         ],xs=12,sm=12,md=12,lg=6,xl=7,
                     )
-                ],
+                ]
             ),  # end of row for content
 
-                ]
+                ],style={'overflow-x':'hidden','width':'100vw'}
 
             ),  # end of row for content
         ]
@@ -144,7 +143,7 @@ def update_output(cityselect,mode):
         
 
         fig = px.line_mapbox(dff,line_group=dff['trip id'],lat=dff.lat, lon=dff.lon, hover_name=dff.mapperName,
-                        mapbox_style="carto-positron", zoom=10.7, title='Paratransit network',color='routeName')
+                        mapbox_style="carto-positron", zoom=10, title='Paratransit network',color='routeName')
 
         return fig
 

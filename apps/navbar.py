@@ -15,6 +15,7 @@ navbar =  dbc.NavbarSimple(
         nav=True,
         in_navbar=True,
         label="About",
+        #style={'color':'red'},
     ),
     
     dbc.DropdownMenu(
@@ -47,7 +48,7 @@ navbar =  dbc.NavbarSimple(
     
         dbc.DropdownMenu(
         [
-            dbc.DropdownMenuItem('Onbaord route map', href = '/apps/mapbox'),
+            dbc.DropdownMenuItem('Onboard route map', href = '/apps/mapbox'),
             dbc.DropdownMenuItem('Intercept location map', href = '/apps/geoIntercept'),
             #dbc.DropdownMenuItem('Rank Count', href = '/apps/rankcount'),
         ],
@@ -57,9 +58,9 @@ navbar =  dbc.NavbarSimple(
         
     )
         ],
-    brand = 'TOC Dashboard',
+    brand = 'Digital Innovation Survey Portal',
     brand_href ='/apps/onboard',
     color='#009999',
     brand_style={'color':'#ffff'},
-    className='nav-bar'
+    #className='nav-bar'
     )

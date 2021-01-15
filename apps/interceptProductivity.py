@@ -4,6 +4,7 @@ import dash_core_components as dcc
 import dash_html_components as html
 import dash_bootstrap_components as dbc
 from dash.dependencies import Input, Output
+import plotly.express as px
 
 from app import app
 
@@ -119,11 +120,7 @@ def update_figure(cityProd,variableProd,start_date,end_date): #function to updat
     table = dff.pivot_table(index=variableProd,values=value,aggfunc='count').reset_index()
     table = table.sort_values(by=value,ascending=False)
     
-    trace = go.Bar(x = table[variableProd], y=table[value],marker_color='lightseagreen')
-
-    layout = go.Layout( title = variableProd,xaxis={'title':variableProd},yaxis = {'title':'Total'},
-                        barmode = 'stack', height = 500,margin={'b':0})
-
-    fig = go.Figure ( data = [trace], layout = layout )
+    fig = px.bar(data_frame=table,x=variableProd,y='key',text='key',title=variableProd,color='key')
+    fig.update_layout(uniformtext_minsize=6, uniformtext_mode='show')
     fig.update_layout()
     return fig

@@ -36,11 +36,21 @@ layout = html.Div([ #canvas
                             dcc.Dropdown(id='cityOP',
                             options = [{'label': s, 'value': s} for s in sorted(data.city.unique())],
                             value = 'Maseru',
-                            style = {'font-size':15,'align':'justify','margin':0,'padding':5},
+                            style = {'font-size':15,'align':'justify','margin':0,'padding':5,'margin-top':40},
                             placeholder='Select city',
                             clearable=False,
 
                             ), #fourth element of left column  
+                            
+                            dcc.Dropdown(id='onboard-mode',
+                            options = [{'label': s, 'value': s} for s in sorted(data['vehicle type'].unique())],
+                            value = ['4+1','Mini-bus'],
+                            multi=True,
+                            style = {'font-size':15,'align':'justify','margin':0,'padding':5,'margin-top':40},
+                            placeholder='Select mode',
+                            clearable=False,
+
+                            ), #fourth element of left column 
                             
                             dcc.RadioItems(id='radiobtn',
                                 options=[
@@ -80,127 +90,136 @@ layout = html.Div([ #canvas
         Input(component_id = 'radiobtn',component_property = 'value'),
         
         Input(component_id = 'cityOP',component_property = 'value'),
+        
+        Input(component_id = 'onboard-mode',component_property = 'value'),
 
  
         ]
 
     )
-def update_figure(selected_option,cityOP): #function to update figure each time a new option is selected
+def update_figure(selected_option,cityOP,mode): #function to update figure each time a new option is selected
     
     
     data2 = data[data['city']==cityOP]
-
+    data2 = data2[data2['vehicle type'].isin(mode)]
+    print(data2)
     
+    # if no selection - must return an empty graph
+
+    if len(mode)==0:
+        return {'data':[]}
     
-    
-    if selected_option == 'demo':
-        
-        fig = make_subplots(rows=4, cols=1)
-        table = data2.pivot_table(index='vehicle reg no',values='total passengers',aggfunc='sum')
-        table = table.sort_values(by='total passengers',ascending=False)
-        fig.append_trace({'x':table.index,'y':table['total passengers'],'type':'bar','name':'total passengers'},1,1)
-        
-        table = data2.pivot_table(index='vehicle reg no',values='revenue',aggfunc='sum')
-        table = table.sort_values(by='revenue',ascending=False)
-        fig.append_trace({'x':table.index,'y':table['revenue'],'type':'bar','name':'revenue per vehicle'},2,1) 
-        
-        table = data2.pivot_table(index='vehicle reg no',values='distance',aggfunc='sum')
-        table = table.sort_values(by='distance',ascending=False)
-        fig.append_trace({'x':table.index,'y':table['distance'],'type':'bar','name':'distance in km'},3,1) 
-        
-        table = data2.pivot_table(index='vehicle reg no',values='trip id',aggfunc='count')
-        table = table.sort_values(by='trip id',ascending=False)
-        fig.append_trace({'x':table.index,'y':table['trip id'],'type':'bar','name':'number of trips'},4,1) 
-                   
-        fig.update_layout(title_text='Vehicle revenue summaries',height=850)
-
-        return fig
-        
-    elif selected_option == 'hh':
-        
-        fig = make_subplots(rows=4, cols=1)
-        table = data2.pivot_table(index='route_id',values='total passengers',aggfunc='sum')
-        table = table.sort_values(by='total passengers',ascending=False)
-        fig.append_trace({'x':table.index,'y':table['total passengers'],'type':'bar','name':'total passengers'},1,1)
-        
-        table = data2.pivot_table(index='route_id',values='revenue',aggfunc='sum')
-        table = table.sort_values(by='revenue',ascending=False)
-        fig.append_trace({'x':table.index,'y':table['revenue'],'type':'bar','name':'revenue per vehicle'},2,1) 
-        
-        table = data2.pivot_table(index='route_id',values='distance',aggfunc='sum')
-        table = table.sort_values(by='distance',ascending=False)
-        fig.append_trace({'x':table.index,'y':table['distance'],'type':'bar','name':'distance in km'},3,1) 
-        
-        table = data2.pivot_table(index='route_id',values='trip id',aggfunc='count')
-        table = table.sort_values(by='trip id',ascending=False)
-        fig.append_trace({'x':table.index,'y':table['trip id'],'type':'bar','name':'number of trips'},4,1) 
-                   
-        fig.update_layout(title_text='Vehicle revenue summaries',height=850)
-
-        return fig      
-        
-    elif selected_option == 'em':
-        fig = make_subplots(
-            rows=3, cols=2,
-            specs=[[{'colspan':2}, {}], #row 1
-                [{'colspan':2}, None], #row 2
-                [{"colspan": 2}, None], # row 3
-                ], #row 5
-            print_grid=True,vertical_spacing=0.15)
-
-
-        table = data2.pivot_table(index='vehicle reg no',values='tripRevenueKm',aggfunc='mean').reset_index().sort_values(by='tripRevenueKm',ascending=False)
-        fig.append_trace({'x':table['vehicle reg no'],'y':table['tripRevenueKm'],'type':'bar','name':'Average trip earning potential'},1,1)
-        
-        table = data2.pivot_table(index=['vehicle reg no'],values=['revenue','distance'],aggfunc='mean').reset_index()        
-        table['vehicleRevenueKm'] = table.revenue/table.distance
-        
-        #replace inf which comes as a result of speed calculation
-        table = table.replace([np.inf, -np.inf], np.nan)
-        table = table.fillna(0).sort_values(by='vehicleRevenueKm',ascending=False)
-        
-        fig.append_trace({'x':table['vehicle reg no'],'y':table['vehicleRevenueKm'],'type':'bar','name':'Total revenue per total distance'},2,1)
-
-        fig.update_layout(margin=dict(l=80,r=20,t=50,b=20),showlegend=True,height=800, title_text="Revenue per kilometer")
-        
-        return fig      
-    
-    elif selected_option == 'cut':
-        fig = make_subplots(
-        rows=1, cols=1,  
-        )
-
-        table = data2.pivot_table(index='interval',values='total passengers',aggfunc='sum')
-        table = table.reset_index()
-        table2 = ref.merge(table,on='interval',how='outer')
-        table2 = table2.fillna(0)
-        table2['axis'] = pandas.to_datetime(table2['interval']).dt.time
-        table2 = table2.sort_values(by='axis',ascending=True)
-
-        fig.append_trace({'x':table2['axis'],'y':table2['total passengers'],'type':'scatter','name':'Passenger per 15 min interval'},1,1)
-        
-        fig.update_layout(margin=dict(l=80,r=20,t=50,b=20),showlegend=True,height=400, title_text="Passengers per 15 min interval")
-
-        return fig
-           
-
     
     else:
-        fig = make_subplots(rows=2, cols=3,subplot_titles=("distance", "revenue",'total passengers','number of stops','travel time','speed'))
-
-        fig.append_trace({'y':data2.distance,'type':'box','name':'distance'},1,1)
-        fig.append_trace({'y':data2.revenue,'type':'box','name':'revenue'},1,2)
-        fig.append_trace({'y':data2['total passengers'],'type':'box','name':'total passengers'},1,3)
-
-        fig.append_trace({'y':data2['number of stops'],'type':'box','name':'number of stops'},2,1)
-
-        fig.append_trace({'y':data2.travel_time_min,'type':'box','name':'travel time'},2,2)
-        fig.append_trace({'y':data2.speed,'type':'box','name':'speed'},2,3)
-
+        
+        if selected_option == 'demo':
+            
+            fig = make_subplots(rows=4, cols=1)
+            table = data2.pivot_table(index='vehicle reg no',values='total passengers',aggfunc='sum')
+            table = table.sort_values(by='total passengers',ascending=False)
+            fig.append_trace({'x':table.index,'y':table['total passengers'],'type':'bar','name':'total passengers'},1,1)
+            
+            table = data2.pivot_table(index='vehicle reg no',values='revenue',aggfunc='sum')
+            table = table.sort_values(by='revenue',ascending=False)
+            fig.append_trace({'x':table.index,'y':table['revenue'],'type':'bar','name':'revenue per vehicle'},2,1) 
+            
+            table = data2.pivot_table(index='vehicle reg no',values='distance',aggfunc='sum')
+            table = table.sort_values(by='distance',ascending=False)
+            fig.append_trace({'x':table.index,'y':table['distance'],'type':'bar','name':'distance in km'},3,1) 
+            
+            table = data2.pivot_table(index='vehicle reg no',values='trip id',aggfunc='count')
+            table = table.sort_values(by='trip id',ascending=False)
+            fig.append_trace({'x':table.index,'y':table['trip id'],'type':'bar','name':'number of trips'},4,1) 
                     
-        fig.update_layout()
+            fig.update_layout(title_text='Vehicle revenue summaries',height=850)
+
+            return fig
+            
+        elif selected_option == 'hh':
+            
+            fig = make_subplots(rows=4, cols=1)
+            table = data2.pivot_table(index='route_id',values='total passengers',aggfunc='sum')
+            table = table.sort_values(by='total passengers',ascending=False)
+            fig.append_trace({'x':table.index,'y':table['total passengers'],'type':'bar','name':'total passengers'},1,1)
+            
+            table = data2.pivot_table(index='route_id',values='revenue',aggfunc='sum')
+            table = table.sort_values(by='revenue',ascending=False)
+            fig.append_trace({'x':table.index,'y':table['revenue'],'type':'bar','name':'revenue per vehicle'},2,1) 
+            
+            table = data2.pivot_table(index='route_id',values='distance',aggfunc='sum')
+            table = table.sort_values(by='distance',ascending=False)
+            fig.append_trace({'x':table.index,'y':table['distance'],'type':'bar','name':'distance in km'},3,1) 
+            
+            table = data2.pivot_table(index='route_id',values='trip id',aggfunc='count')
+            table = table.sort_values(by='trip id',ascending=False)
+            fig.append_trace({'x':table.index,'y':table['trip id'],'type':'bar','name':'number of trips'},4,1) 
+                    
+            fig.update_layout(title_text='Vehicle revenue summaries',height=850)
+
+            return fig      
+            
+        elif selected_option == 'em':
+            fig = make_subplots(
+                rows=3, cols=2,
+                specs=[[{'colspan':2}, {}], #row 1
+                    [{'colspan':2}, None], #row 2
+                    [{"colspan": 2}, None], # row 3
+                    ], #row 5
+                print_grid=True,vertical_spacing=0.15)
+
+
+            table = data2.pivot_table(index='vehicle reg no',values='tripRevenueKm',aggfunc='mean').reset_index().sort_values(by='tripRevenueKm',ascending=False)
+            fig.append_trace({'x':table['vehicle reg no'],'y':table['tripRevenueKm'],'type':'bar','name':'Average trip earning potential'},1,1)
+            
+            table = data2.pivot_table(index=['vehicle reg no'],values=['revenue','distance'],aggfunc='mean').reset_index()        
+            table['vehicleRevenueKm'] = table.revenue/table.distance
+            
+            #replace inf which comes as a result of speed calculation
+            table = table.replace([np.inf, -np.inf], np.nan)
+            table = table.fillna(0).sort_values(by='vehicleRevenueKm',ascending=False)
+            
+            fig.append_trace({'x':table['vehicle reg no'],'y':table['vehicleRevenueKm'],'type':'bar','name':'Total revenue per total distance'},2,1)
+
+            fig.update_layout(margin=dict(l=80,r=20,t=50,b=20),showlegend=True,height=800, title_text="Revenue per kilometer")
+            
+            return fig      
+        
+        elif selected_option == 'cut':
+            fig = make_subplots(
+            rows=1, cols=1,  
+            )
+
+            table = data2.pivot_table(index='interval',values='total passengers',aggfunc='sum')
+            table = table.reset_index()
+            table2 = ref.merge(table,on='interval',how='outer')
+            table2 = table2.fillna(0)
+            table2['axis'] = pandas.to_datetime(table2['interval']).dt.time
+            table2 = table2.sort_values(by='axis',ascending=True)
+
+            fig.append_trace({'x':table2['axis'],'y':table2['total passengers'],'type':'scatter','name':'Passenger per 15 min interval'},1,1)
+            
+            fig.update_layout(margin=dict(l=80,r=20,t=50,b=20),showlegend=True,height=400, title_text="Passengers per 15 min interval")
+
+            return fig
+            
 
         
-        return fig        
+        else:
+            fig = make_subplots(rows=2, cols=3,subplot_titles=("distance", "revenue",'total passengers','number of stops','travel time','speed'))
+
+            fig.append_trace({'y':data2.distance,'type':'box','name':'distance'},1,1)
+            fig.append_trace({'y':data2.revenue,'type':'box','name':'revenue'},1,2)
+            fig.append_trace({'y':data2['total passengers'],'type':'box','name':'total passengers'},1,3)
+
+            fig.append_trace({'y':data2['number of stops'],'type':'box','name':'number of stops'},2,1)
+
+            fig.append_trace({'y':data2.travel_time_min,'type':'box','name':'travel time'},2,2)
+            fig.append_trace({'y':data2.speed,'type':'box','name':'speed'},2,3)
+
+                        
+            fig.update_layout()
+
+            
+            return fig        
             
         
