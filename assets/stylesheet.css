@@ -1,9 +1,12 @@
 
+/** nav bar styling and text color**/
+.navbar.navbar-expand-md.navbar-light li a{
+    color: aliceblue;
+}
+/** change date font **/
 .DateInput_input{
     font-size: 15px;
 }
-
-
 
 .left-side-bar{
     background-color: #f0f5f5;
@@ -17,29 +20,19 @@
     text-align: justify;
     font-size: small;
     margin-top: 1.5%;
-    margin-left: 2%;
+    margin-left: 8%;
 }
 .summary-image{
     margin-top: 5%;
     margin-left: 2%;
 }
 
-.table{
-    padding-top: 5%;
-    padding-left: 0%;
-    padding-right: 0%;
-    width: 50%;
-    display: flex;
-    font-size: x-small;
-}
 
 .summary-survey{
     padding-top: 10%;
+
 }
 
-.content{
-    height: 100vh;
-}
 .radio{
     padding-top: 30%;
     display: block;
@@ -47,7 +40,7 @@
 }
 
 #my-date-picker-range{
-    width: auto;
+    width: max-content;
 }
 
 
@@ -58,3 +51,8 @@
     padding-top: 1%;
     display: block;
 }
+
+.dropdown-menu.show{
+    background-color: #00b3b3;
+}
+

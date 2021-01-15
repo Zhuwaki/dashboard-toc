@@ -44,6 +44,14 @@ layout = html.Div([ #canvas
                             value = 'Maseru',
                             style = {'font-size':15,'align':'justify','margin':0,'padding':5}
                             ), #fourth element of left colum
+                            
+                            
+                            dcc.Dropdown(id='vehicle-type',
+                            options = [{'label': s, 'value': s} for s in sorted(data['vehicle type'].unique())],
+                            value = ['4+1'],
+                            multi=True,
+                            style = {'font-size':15,'align':'justify','margin':0,'padding':5}
+                            ), #fourth element of left colum
                                  
                             html.P('Select Summary'
                             ,style={'font-size':20,'align':'justify','margin':0,'padding':20}), # first element of left column
@@ -90,7 +98,7 @@ layout = html.Div([ #canvas
                 
             ) # end of row for content
 
-        ]
+        ],style={'overflow-x':'hidden','width':'100vw','height':'100vh'}
     ), # end of division for content
     
 
@@ -113,15 +121,18 @@ def set_route_options(selected_city):
         
         Input(component_id = 'city',component_property = 'value'),
         Input(component_id = 'variable',component_property = 'value'),
-
+        
 
         Input('my-date-picker-range', 'start_date'),
         Input('my-date-picker-range', 'end_date'),
+        
+        Input(component_id = 'vehicle-type',component_property = 'value'),
+
 
         ]
 
     )
-def update_figure(city,variable,start_date,end_date): #function to update figure each time a new option is selected
+def update_figure(city,variable,start_date,end_date,mode): #function to update figure each time a new option is selected
     value = 'trip id' # key value for longform data function
     #variable='mapper'
     print(start_date)
@@ -137,10 +148,17 @@ def update_figure(city,variable,start_date,end_date): #function to update figure
     elif end_date > data['date mapped'].max():
             
         return {'data':[]}
+    
+    elif len(mode)==0:
+        return{'data':[]}
         
     else:
 
         data2 = data[data['city']==city]
+        
+        data2 = data2[data2['vehicle type'].isin(mode)]
+        
+        print(data2)
         
         dff = data2[(data2['date mapped']>=start_date) & (data2['date mapped']<=end_date)]
         
