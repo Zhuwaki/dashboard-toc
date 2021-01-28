@@ -26,7 +26,7 @@ layout = html.Div([ #canvas
                             dcc.Dropdown(id='cityDemo',
                             options = [{'label': s, 'value': s} for s in sorted(data.city.unique())],
                             value = 'Maseru',
-                            style = {'font-size':15,'align':'justify','margin':0,'padding':5},
+                            style = {'font-size':15,'align':'justify','margin-top':40,'padding':5},
                             placeholder='Select city',
                             clearable=False,
 

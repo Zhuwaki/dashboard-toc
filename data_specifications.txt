@@ -1,0 +1,9 @@
+The following datasets are required as input for the web application
+
+For onboard survey data
+
+The trip file
+
+There is reshaping required for onbaord data before we can plot it using mapbox
+
+{INSERT INFORMATION ON PROCESS}
