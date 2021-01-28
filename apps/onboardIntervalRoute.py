@@ -158,7 +158,7 @@ def update_figure(city,route,start_date,end_date): #function to update figure ea
 
         fig.append_trace({'x':table2['axis'],'y':table2['total passengers'],'type':'scatter','name':'Passenger per 15 min interval'},1,1)
         
-        fig.update_layout(title_text="Passengers per 15 min interval")
+        fig.update_layout(title_text="Route passenger demand per 15 min interval")
         
         return fig
 
