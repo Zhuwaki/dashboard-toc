@@ -1,0 +1,38 @@
+This is a dashboard application deployed using Heroku 
+
+The application is developed using Dash - Lightweight python plotting webframework based on Flask 
+
+The application will be organised as follows 
+
+
+WEB APPLICATION :
+    - About 
+        - Project summary
+        - City A
+        - City B
+    - Productivity
+        - Onboard surveys
+        - Intercept surveys
+        - Rank count surveys
+    - Survey summary
+        - Intercept surveys
+        - Onboard surveys
+        - Route demand
+        - Vehicle revenue
+        - Route frequency
+    - Geospatial
+        - Onboard
+        - Intercept
+
+About
+Provide a background on the Project
+
+Productivity
+Provides a summary of data collected for each day
+
+Survey summary
+Provide aggregated data summaries for each surveys
+
+Geospatial
+Provides aggregated geospatial summaries for the Onboard and Intercept surveys
+

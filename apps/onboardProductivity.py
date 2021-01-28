@@ -8,24 +8,8 @@ import plotly.express as px
 
 from app import app
 
-
-
-drop_down_list = ['route_id','mapper','vehicle reg no','company']
-data = pandas.read_csv(r'datasets/combined_mode_cleanedob.csv')
-
-
-def get_options(drop_down_list): # function gets a list of options for drop down and creates a dictionary with label and value
-    dict_list = []
-    for i in drop_down_list:
-        dict_list.append({'label':i,'value':i})
-    return dict_list
-
-
-def long_form(df, product, value): # function prepares the data into long form data - current understanding can only plot long form data
-    new_df = df.pivot_table ( index = [product], values = value, aggfunc = 'count' ).reset_index ()
-    new_df = new_df.sort_values(by=value,ascending=True)
-    new_df = new_df.set_index ( product )
-    return new_df
+drop_down_list = ['route description','mapper','vehicle reg no','company']
+data = pandas.read_csv(r'datasets/onboard/extreme_trips_pilot.csv')
 
 
 layout = html.Div([ #canvas
@@ -71,8 +55,8 @@ layout = html.Div([ #canvas
                             day_size=39,
                             with_portal=True,
                             minimum_nights = 0,
-                            start_date=data['date mapped'].min(),
-                            end_date=data['date mapped'].max(),
+                            start_date = data['date mapped'].min(),
+                            end_date = data['date mapped'].max(),
                             #persistence = True,
                             #persisted_props=['start_date'],
                             #persistence_type='session',
@@ -104,7 +88,6 @@ layout = html.Div([ #canvas
     
 
     ]) # end of canvas
-
 
 
 
@@ -165,7 +148,7 @@ def update_figure(city,variable,start_date,end_date,mode): #function to update f
         
         table = dff.pivot_table(index=variable,values='trip id',aggfunc='count').reset_index()
         table = table.sort_values(by=value,ascending=False)
-        
+        print(table)
         fig = px.bar(data_frame=table,x=variable,y='trip id',text='trip id',title=variable,color='trip id')
         fig.update_layout(uniformtext_minsize=6, uniformtext_mode='show')
         

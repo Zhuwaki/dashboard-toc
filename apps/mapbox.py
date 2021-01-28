@@ -20,7 +20,7 @@ from app import app
 mapboxData = pandas.read_csv(r'datasets/mapbox_trips_output.csv')
 
 
-onboardData = pandas.read_csv(r'datasets/combined_mode_cleanedob.csv')
+onboardData = pandas.read_csv(r'datasets/onboard/extreme_trips_pilot.csv')
 
 
 layout = html.Div([  # canvas
@@ -44,7 +44,7 @@ layout = html.Div([  # canvas
                     dbc.Col(
                         [
                             dcc.Dropdown(id='drop-mode',
-                            options = [{'label': s, 'value': s} for s in sorted(mapboxData['vehicle type'].unique())],
+                            options = [{'label': s, 'value': s} for s in sorted(onboardData['vehicle type'].unique())],
                             value = ['Mini-bus'],
                             multi = True,
                             style={'font-size': 15,

@@ -13,7 +13,7 @@ from plotly.subplots import make_subplots
 import plotly.express as px
 
 
-data = pandas.read_csv(r'datasets/combinedRank.csv')
+data = pandas.read_csv(r'datasets/rank/rank_extreme_outliers_26012021.csv')
 data['interval'] = pandas.to_datetime(data['time_interval'])
 
 
@@ -42,7 +42,7 @@ layout = html.Div([ #canvas
                             ,style={'font-size':20,'align':'justify','margin':0,'padding':10}), # first element of left column
                             dcc.Dropdown(id='city',
                             options = [{'label': s, 'value': s} for s in sorted(data.city.unique())],
-                            value = 'Maseru',
+                            value = 'Gaborone',
                             style = {'font-size':15,'align':'justify','margin':0,'padding':5},
                             placeholder='Select city',
                             clearable=False,
@@ -155,7 +155,7 @@ def update_figure(city,origin,start_date,end_date): #function to update figure e
 
         fig.append_trace({'x':table2['axis'],'y':table2['key'],'type':'scatter','name':'Passenger per 15 min interval'},1,1)
         
-        fig.update_layout(title_text="Passengers per 15 min interval")
+        fig.update_layout(title_text="Number of departures from rank terminal per 15 min interval")
         
         return fig
 

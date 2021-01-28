@@ -34,9 +34,9 @@ navbar =  dbc.NavbarSimple(
         [
             dbc.DropdownMenuItem('Intercept summary', href = '/apps/intercept_demo'),
             dbc.DropdownMenuItem('Onboard summary', href = '/apps/onboardData'),
-            dbc.DropdownMenuItem('Route demand', href = '/apps/onboardIntervalRoute'),
-            dbc.DropdownMenuItem('Vehicle revenue', href = '/apps/onboardIntervalVehicle'),
-            dbc.DropdownMenuItem('Route frequency', href = '/apps/routeFrequency'),
+            dbc.DropdownMenuItem('15min-interval route demand', href = '/apps/onboardIntervalRoute'),
+            dbc.DropdownMenuItem('15min-interval vehicle demand', href = '/apps/onboardIntervalVehicle'),
+            dbc.DropdownMenuItem('15min-interval number of departures', href = '/apps/routeFrequency'),
 
 
 
