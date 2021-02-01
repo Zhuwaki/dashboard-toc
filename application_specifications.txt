@@ -17,9 +17,9 @@ WEB APPLICATION :
     - Survey summary
         - Intercept surveys
         - Onboard surveys
-        - Route demand
-        - Vehicle revenue
-        - Route frequency
+        - 15min -intervval route demand
+        - 15min interval vehicle demand
+        - 15min-interval number of departures
     - Geospatial
         - Onboard
         - Intercept
